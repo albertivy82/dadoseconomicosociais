@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class InstituicaoConhecida {
+public class Violencia {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +27,12 @@ public class InstituicaoConhecida {
 	private Long id;
 	
 	@NotBlank
-	private String Nome;
+	private String tipo;
 	
-	@NotBlank
-	private String atividades;
+	@NotNull
+	private int ocorrencias;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="entrevistados")
 	private Entrevistado entrevistado;
