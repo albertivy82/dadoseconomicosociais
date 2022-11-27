@@ -1,4 +1,4 @@
-package br.gov.pa.ideflorbio.dadoseconomicossociais.model;
+package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,6 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Entrevistado extends Morador implements Serializable{
+public class Entrevistado implements Serializable{
 	
 	
 	private static final long serialVersionUID = 1L;
@@ -40,16 +43,17 @@ public class Entrevistado extends Morador implements Serializable{
 	@NotBlank
 	private String servPublico;
 	
-	@OneToMany(mappedBy = "entrevistados")
+	@JsonIgnore
+	@OneToMany(mappedBy = "entrevistado")
 	private List<Violencia> violenciaSofrida;
 	
-	@OneToMany(mappedBy = "entrevistados")
+	@OneToMany(mappedBy = "entrevistado")
 	private List<InstituicaoConhecida> instituicaoConhecida;
 	
-	@OneToMany(mappedBy = "entrevistados")
-	private List<atividadeEconomica> atividadeEconomica;
+	@OneToMany(mappedBy = "entrevistado")
+	private List<AtividadeEconomica> atividadeEconomica;
 	
-	@OneToMany(mappedBy = "entrevistados")
+	@OneToMany(mappedBy = "entrevistado")
 	private List<Credito> cerdito;
 	
 	@OneToOne

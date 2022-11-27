@@ -1,6 +1,8 @@
-package br.gov.pa.ideflorbio.dadoseconomicossociais.model;
+package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 
 
+import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,22 +20,24 @@ import lombok.Setter;
 @Setter
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Violencia {
+public class Credito implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
 	
+	@NotBlank 
+	private String nome;
+	
 	@NotBlank
-	private String tipo;
+	private BigDecimal valor;
 	
-	@NotNull
-	private int ocorrencias;
-	
-	@NotNull
+	@NotBlank
 	@ManyToOne
-	@JoinColumn(name="entrevistados")
+	@JoinColumn(name="entrevistado")
 	private Entrevistado entrevistado;
 
 }

@@ -1,15 +1,21 @@
-package br.gov.pa.ideflorbio.dadoseconomicossociais.model;
+package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 
 
+
+import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.ViolenciaTipo;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,21 +24,25 @@ import lombok.Setter;
 @Setter
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class InstituicaoConhecida {
+public class Violencia implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
 	
 	@NotBlank
-	private String Nome;
+	@Enumerated(EnumType.STRING)
+	private ViolenciaTipo tipo;
 	
-	@NotBlank
-	private String atividades;
+	@NotNull
+	private int ocorrencias;
 	
+	@NotNull
 	@ManyToOne
-	@JoinColumn(name="entrevistados")
+	@JoinColumn(name="entrevistado")
 	private Entrevistado entrevistado;
 
 }
