@@ -1,39 +1,42 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotNull;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Molestias;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Doenca implements Serializable{
+public class Escola implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY )
 	@EqualsAndHashCode.Include
 	private Long id;
 	
-	@NotNull
-	@Enumerated(EnumType.STRING)
-	private Molestias DoencaNome;
+	private String nome;
+	private boolean merenda;
+	private boolean transporte;
 	
-	@ManyToMany(mappedBy = "doenca")
-	private List<Morador> morador;
+	@Enumerated(EnumType.STRING)
+	private SimNao educacaoAmbiental;
+	
+	@ManyToOne
+	@JoinColumn(name="localidade")
+	private Localidade localidade;
 
 }

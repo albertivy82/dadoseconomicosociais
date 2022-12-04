@@ -2,9 +2,6 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,14 +11,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Escolaridade;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.EstadoCivil;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Perfil;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Sexo;
-
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,10 +39,16 @@ public class Morador implements Serializable{
 	@EqualsAndHashCode.Include
 	private Long id;
 	
+	
 	@NotNull
+	@DateTimeFormat(pattern = "YYYY-MM-DD")
 	private Date dataNascimento;
 	
+	@NotNull
 	private int idade;
+	
+	@Enumerated(EnumType.STRING)
+	private Perfil perfil;
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -68,12 +73,13 @@ public class Morador implements Serializable{
 	        joinColumns=
 	            {@JoinColumn(name="morador")},
 	        inverseJoinColumns=
-	            {@JoinColumn(name="donca")}
+	            {@JoinColumn(name="doenca")}
 	    )
 	private List<Doenca> doenca;
 	
 	
-	@OneToOne(mappedBy ="morador")
-	private Entrevistado entrevitado;;
+	@ManyToOne
+	@JoinColumn(name="entrevistado")
+	private Entrevistado entrevistado;
 
 }
