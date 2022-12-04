@@ -29,8 +29,13 @@ public class Escola implements Serializable {
 	private Long id;
 	
 	private String nome;
-	private boolean merenda;
-	private boolean transporte;
+	
+	
+	@Enumerated(EnumType.STRING)
+	private SimNao merenda;
+	
+	@Enumerated(EnumType.STRING)
+	private SimNao transporte;
 	
 	@Enumerated(EnumType.STRING)
 	private SimNao educacaoAmbiental;

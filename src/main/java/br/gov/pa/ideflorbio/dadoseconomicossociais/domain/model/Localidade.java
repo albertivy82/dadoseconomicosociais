@@ -3,6 +3,8 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Municipio;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,13 +35,15 @@ public class Localidade implements Serializable{
 	@NotBlank
 	private String referencial;
 	@NotBlank
+	@Enumerated(EnumType.STRING)
 	private Municipio municipio;
 	@NotBlank
 	private String latitude;
 	@NotBlank
 	private String longitude;
 	@NotBlank
-	private boolean postoDeSaude;
+	@Enumerated(EnumType.STRING)
+	private SimNao postoDeSaude;
 	
 	@OneToMany(mappedBy="localidade")
 	private List<Escola> escolas;

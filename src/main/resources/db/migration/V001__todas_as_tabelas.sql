@@ -2,8 +2,8 @@ CREATE TABLE `localidade` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
   `latitude` varchar(255) DEFAULT NULL,
   `longitude` varchar(255) DEFAULT NULL,
-  `municipio` int DEFAULT NULL,
-  `posto_de_saude` bit(1) NOT NULL,
+  `municipio` varchar(100) DEFAULT NULL,
+  `posto_de_saude` varchar(5) NOT NULL,
   `referencial` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
@@ -12,8 +12,8 @@ CREATE TABLE `escola` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) DEFAULT NULL,
   `educacao_ambiental` varchar(5) DEFAULT NULL,
-  `merenda` bit(1) NOT NULL,
-  `transporte` bit(1) NOT NULL,
+  `merenda` varchar(5) NOT NULL,
+  `transporte` varchar(5) NOT NULL,
   `localidade` bigint(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
@@ -104,7 +104,7 @@ CREATE TABLE `morador` (
   `perfil` varchar(255) DEFAULT NULL,
   `religiao` varchar(255) DEFAULT NULL,
   `sexo` varchar(255) NOT NULL,
-  `trabalho` bit(1) NOT NULL,
+  `trabalho` varchar(5) NOT NULL,
   `entrevistado` bigint(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

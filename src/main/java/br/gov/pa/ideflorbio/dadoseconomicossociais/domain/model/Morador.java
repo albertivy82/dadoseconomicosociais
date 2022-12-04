@@ -21,6 +21,8 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Escolarida
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.EstadoCivil;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Perfil;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Sexo;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
+
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -60,7 +62,8 @@ public class Morador implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Escolaridade escolaridade;
 	@NotNull
-	private String ondeEstuda;
+	@Enumerated(EnumType.STRING)
+	private SimNao ondeEstuda;
 	@NotNull
 	private boolean trabalho;
 	@NotBlank
