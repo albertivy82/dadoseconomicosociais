@@ -33,8 +33,6 @@ public class Localidade implements Serializable{
 	private Long id;
 	
 	@NotBlank
-	private String referencial;
-	@NotBlank
 	@Enumerated(EnumType.STRING)
 	private Municipio municipio;
 	@NotBlank
@@ -47,6 +45,9 @@ public class Localidade implements Serializable{
 	
 	@OneToMany(mappedBy="localidade")
 	private List<Escola> escolas;
+	
+	@OneToMany(mappedBy="localidade")
+	private List<Residencia> residencia;
 	
 	@ManyToMany
 	@JoinTable(

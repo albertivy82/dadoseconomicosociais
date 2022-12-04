@@ -4,8 +4,7 @@ CREATE TABLE `localidade` (
   `longitude` varchar(255) DEFAULT NULL,
   `municipio` varchar(100) DEFAULT NULL,
   `posto_de_saude` varchar(5) NOT NULL,
-  `referencial` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE `escola` (
@@ -32,8 +31,11 @@ CREATE TABLE `localidade_entrevistador` (
 
 CREATE TABLE `residencia` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `localidade` varchar(255) DEFAULT NULL,
-  `referencial` varchar(255) DEFAULT NULL,
+  `localidade` bigint(30) DEFAULT NULL,
+  `rua` varchar(255) DEFAULT NULL,
+  `numero` varchar(10) DEFAULT NULL,
+  `bairro` varchar(255) DEFAULT NULL,
+  `referencial` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 

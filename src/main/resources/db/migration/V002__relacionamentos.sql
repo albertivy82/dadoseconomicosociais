@@ -1,6 +1,11 @@
 ALTER TABLE `escola` ADD CONSTRAINT `fk_localidade_escola` FOREIGN KEY ( `localidade` ) REFERENCES `localidade` ( `id` );
+
+ALTER TABLE `residencia` ADD CONSTRAINT `fk_localidade_residencia` FOREIGN KEY ( `localidade` ) REFERENCES `localidade` ( `id` );
+
 ALTER TABLE `localidade_entrevistador` ADD CONSTRAINT `fk_entrevistador_localidade_entrevistador` FOREIGN KEY ( `entrevistador` ) REFERENCES `entrevistador` ( `id` );
 ALTER TABLE `localidade_entrevistador` ADD CONSTRAINT `fk_localidade_localidade_entrevistador` FOREIGN KEY ( `localidade` ) REFERENCES `localidade` ( `id` );
+
+
 ALTER TABLE `moradia_conexao` ADD CONSTRAINT `fk_residencia_moradia_conexao` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );
 ALTER TABLE `moradia_conexao` ADD CONSTRAINT `fk_entrevistado_moradia_conexao` FOREIGN KEY ( `entrevistado` ) REFERENCES `entrevistado` ( `id` );
 ALTER TABLE `violencia` ADD CONSTRAINT `fk_entrevistado_violencia` FOREIGN KEY ( `entrevistado` ) REFERENCES `entrevistado` ( `id` );
