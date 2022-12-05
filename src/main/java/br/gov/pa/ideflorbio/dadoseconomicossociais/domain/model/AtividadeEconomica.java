@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class AtividadeEconomica implements Serializable{
 	private String atividade;
 	
 	@NotNull
+	@PositiveOrZero(message = "informe um valor válido")
 	private BigDecimal faturamentoMes;
 	
 	@NotNull

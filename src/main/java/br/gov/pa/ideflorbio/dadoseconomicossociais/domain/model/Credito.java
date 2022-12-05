@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +34,7 @@ public class Credito implements Serializable{
 	private String nome;
 	
 	@NotBlank
+	@PositiveOrZero(message = "informe um valor válido")
 	private BigDecimal valor;
 	
 	@NotBlank
