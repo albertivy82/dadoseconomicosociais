@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Violencia;
 
 @Repository
-public interface VioleciaRepository extends JpaRepository<Violencia, Long>{
+public interface ViolenciaRepository extends JpaRepository<Violencia, Long>{
 
 }

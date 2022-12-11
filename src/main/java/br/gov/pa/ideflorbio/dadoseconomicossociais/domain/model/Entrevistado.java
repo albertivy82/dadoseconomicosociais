@@ -51,7 +51,7 @@ public class Entrevistado implements Serializable{
 	private List<AtividadeEconomica> atividadeEconomica;
 	
 	@OneToMany(mappedBy = "entrevistado")
-	private List<Credito> cerdito;
+	private List<Credito> credito;
 	
 	@OneToMany(mappedBy = "entrevistado")
 	private  List<Morador> morador;
