@@ -14,11 +14,11 @@ public class MoradorController {
 	
 	
 	
-	@
-	public Page<Morador>listar(@PageableDefault(size = 10) Pageable paginacao){
+	//@
+	//public Page<Morador>listar(@PageableDefault(size = 10) Pageable paginacao){
 		
-		return
+		//return
 		
-	}
+	//}
 
 }

@@ -1,25 +1,25 @@
 CREATE TABLE `localidade` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `latitude` varchar(255) DEFAULT NULL,
-  `longitude` varchar(255) DEFAULT NULL,
-  `municipio` varchar(100) DEFAULT NULL,
+  `latitude` varchar(255) NOT NULL,
+  `longitude` varchar(255) NOT NULL,
+  `municipio` varchar(100) NOT NULL,
   `posto_de_saude` varchar(5) NOT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE `escola` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) DEFAULT NULL,
-  `educacao_ambiental` varchar(5) DEFAULT NULL,
+  `nome` varchar(255) NOT NULL,
+  `educacao_ambiental` varchar(5) NOT NULL,
   `merenda` varchar(5) NOT NULL,
   `transporte` varchar(5) NOT NULL,
-  `localidade` bigint(30) DEFAULT NULL,
+  `localidade` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 CREATE TABLE `entrevistador` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) DEFAULT NULL,
+  `nome` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -31,41 +31,39 @@ CREATE TABLE `localidade_entrevistador` (
 
 CREATE TABLE `residencia` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `localidade` bigint(30) DEFAULT NULL,
   `rua` varchar(255) DEFAULT NULL,
   `numero` varchar(10) DEFAULT NULL,
   `bairro` varchar(255) DEFAULT NULL,
   `referencial` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
-
-
-CREATE TABLE `moradia_conexao` (
-  `id` bigint(30) NOT NULL AUTO_INCREMENT,
+  `latitude` varchar(255) NOT NULL,
+  `longitude` varchar(255) NOT NULL,
+  `imovel` varchar(100) NOT NULL,
   `data_chegada` date NOT NULL,
-  `pretende_mudar` varchar(255) DEFAULT NULL,
-  `relacao_area` varchar(255) DEFAULT NULL,
-  `relacao_vizinhos` varchar(255) DEFAULT NULL,
-  `entrevistado` bigint(30) DEFAULT NULL,
-  `residencia` bigint(30) DEFAULT NULL,
+  `pretende_mudar` varchar(255) NOT NULL,
+  `relacao_area` varchar(255) NOT NULL,
+  `relacao_vizinhos` varchar(255) NOT NULL,
+  `localidade` bigint(30) NOT NULL,
+  `entrevistado` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
 
 CREATE TABLE `entrevistado` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `alimentacao` varchar(255) DEFAULT NULL,
-  `compras` varchar(255) DEFAULT NULL,
   `nome` varchar(255) DEFAULT NULL,
-  `serv_publico` varchar(255) DEFAULT NULL,
-  `tipo_atendimento` varchar(255) DEFAULT NULL,
+  `apelido` varchar(100) DEFAULT NULL,
+  `naturalidade` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+
 
 CREATE TABLE `violencia` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
   `ocorrencias` int NOT NULL,
-  `tipo` varchar(255) DEFAULT NULL,
-  `entrevistado` bigint(30) NOT NULL,
+  `tipo` varchar(255) NOT NULL,
+  `residencia` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -73,18 +71,28 @@ CREATE TABLE `violencia` (
 
 CREATE TABLE `instituicao_conhecida` (
   `id` bigint(3) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(255) DEFAULT NULL,
-  `atividades` varchar(255) DEFAULT NULL,
-  `entrevistado` bigint(30) DEFAULT NULL,
+  `nome` varchar(255) NOT NULL,
+  `atividades` varchar(255) NOT NULL,
+  `residencia` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
-CREATE TABLE `atividade_economica` (
+CREATE TABLE `atividade_produtiva` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `atividade` varchar(255) DEFAULT NULL,
-  `faturamento_mes` decimal(19,2) NOT NULL,
-  `entrevistado` bigint(30) NOT NULL,
+  `atividade` varchar(255) NOT NULL,
+  `pessoas_envolvidas` bigint(30) NOT NULL,
+  `faturamento_atividade_mes_total` decimal(19,2) NOT NULL,
+  `residencia` bigint(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `renda_outras_fontes` (
+  `id` bigint(30) NOT NULL AUTO_INCREMENT,
+  `fonte` varchar(100) NOT NULL,
+  `beneficiarios` bigint(30) NOT NULL,
+  `renda_mes_total` decimal(19,2) NOT NULL,
+  `residencia` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -92,7 +100,7 @@ CREATE TABLE `credito` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) DEFAULT NULL,
   `valor` decimal(19,2) DEFAULT NULL,
-  `entrevistado` bigint(30) DEFAULT NULL,
+  `residencia` bigint(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -103,11 +111,11 @@ CREATE TABLE `morador` (
   `estado_civil` varchar(255) NOT NULL,
   `idade` int(3) NOT NULL,
   `onde_estuda` varchar(255) NOT NULL,
-  `perfil` varchar(255) DEFAULT NULL,
-  `religiao` varchar(255) DEFAULT NULL,
+  `perfil` varchar(255) NOT NULL,
+  `religiao` varchar(255) NOT NULL,
   `sexo` varchar(255) NOT NULL,
   `trabalho` varchar(5) NOT NULL,
-  `entrevistado` bigint(30) DEFAULT NULL,
+  `residencia` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -122,3 +130,40 @@ CREATE TABLE `morador_doenca` (
   `morador` bigint(30) NOT NULL,
   `doenca` bigint(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+CREATE TABLE `dados_de_consumo` (
+  `id` bigint(30) NOT NULL AUTO_INCREMENT,
+  `alimentacao` varchar(255) NOT NULL,
+  `local_de_compras` varchar(255) NOT NULL,
+  `residencia` bigint(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `indicado_connsulta_publica` (
+  `id` bigint(30) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  `perfil` varchar(100) NOT NULL,
+  `telefone` varchar(30) DEFAULT NULL,
+  `entrevistado` bigint(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+CREATE TABLE `servicos_basicos` (
+  `id` bigint(30) NOT NULL AUTO_INCREMENT,
+  `tipo_atendimento` varchar(100) NOT NULL,
+  `servicos_deficitarios` varchar(100) NOT NULL,
+  `residencia` bigint(30) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+
+
+
+
+
+
+
+
+
+

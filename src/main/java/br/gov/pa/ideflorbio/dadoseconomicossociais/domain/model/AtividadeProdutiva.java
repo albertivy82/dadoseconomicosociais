@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.AtividadesProdutivas;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +24,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class AtividadeEconomica implements Serializable{
+public class AtividadeProdutiva implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -31,14 +34,18 @@ public class AtividadeEconomica implements Serializable{
 	private Long id;
 	
 	@NotBlank
-	private String atividade;
+	@Enumerated(EnumType.STRING)
+	private AtividadesProdutivas atividade;
+	
+	@NotNull
+	private int pessoasEnvolvidas;
 	
 	@NotNull
 	@PositiveOrZero(message = "informe um valor válido")
-	private BigDecimal faturamentoMes;
+	private BigDecimal faturamentoAtividadeMesTotal;
 	
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="entrevistado")
-	private Entrevistado entrevistado;
+	@JoinColumn(name="residencia")
+	private Residencia residencia;
 }

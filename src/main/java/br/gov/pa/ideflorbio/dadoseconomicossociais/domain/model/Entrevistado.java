@@ -1,13 +1,10 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 
 import java.io.Serializable;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -31,33 +28,20 @@ public class Entrevistado implements Serializable{
 	
 	@NotBlank
 	private String nome;
+	
 	@NotBlank
-	private String alimentacao;
+	private String apelido;
+	
 	@NotBlank
-	private String compras;
-	@NotBlank
-	private String tipoAtendimento;
-	@NotBlank
-	private String servPublico;
+	private String naturalidade;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "entrevistado")
-	private List<Violencia> violenciaSofrida;
+	@OneToOne(mappedBy = "entrevistado")
+	private IndicadoConsultaPublica indicado;
 	
-	@OneToMany(mappedBy = "entrevistado")
-	private List<InstituicaoConhecida> instituicaoConhecida;
-	
-	@OneToMany(mappedBy = "entrevistado")
-	private List<AtividadeEconomica> atividadeEconomica;
-	
-	@OneToMany(mappedBy = "entrevistado")
-	private List<Credito> credito;
-	
-	@OneToMany(mappedBy = "entrevistado")
-	private  List<Morador> morador;
-	
+	@JsonIgnore
 	@OneToOne(mappedBy="entrevistado")
-	private MoradiaConexao moradia;
+	private Residencia residencia;
 	
 	
 

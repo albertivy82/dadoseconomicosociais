@@ -55,17 +55,22 @@ public class Morador implements Serializable{
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Sexo sexo;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private EstadoCivil estadoCivil;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Escolaridade escolaridade;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao ondeEstuda;
+	
 	@NotNull
 	private boolean trabalho;
+	
 	@NotBlank
 	private String religiao;
 	
@@ -82,7 +87,7 @@ public class Morador implements Serializable{
 	
 	
 	@ManyToOne
-	@JoinColumn(name="entrevistado")
-	private Entrevistado entrevistado;
+	@JoinColumn(name="residencia")
+	private Residencia residencia;
 
 }

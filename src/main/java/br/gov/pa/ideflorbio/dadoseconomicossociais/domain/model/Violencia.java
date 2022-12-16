@@ -42,7 +42,7 @@ public class Violencia implements Serializable{
 	
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="entrevistado")
-	private Entrevistado entrevistado;
+	@JoinColumn(name="residencia")
+	private Residencia residencia;
 
 }

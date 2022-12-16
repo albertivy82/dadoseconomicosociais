@@ -36,7 +36,7 @@ public class InstituicaoConhecida implements Serializable{
 	private String atividades;
 	
 	@ManyToOne
-	@JoinColumn(name="entrevistado")
-	private Entrevistado entrevistado;
+	@JoinColumn(name="residencia")
+	private Residencia residencia;
 
 }

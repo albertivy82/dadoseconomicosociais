@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
 import lombok.EqualsAndHashCode;
@@ -30,13 +31,15 @@ public class Escola implements Serializable {
 	
 	private String nome;
 	
-	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao merenda;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao transporte;
 	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao educacaoAmbiental;
 	

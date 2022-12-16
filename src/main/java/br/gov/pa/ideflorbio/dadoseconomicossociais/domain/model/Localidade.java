@@ -13,6 +13,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Municipio;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
 import lombok.EqualsAndHashCode;
@@ -35,17 +38,22 @@ public class Localidade implements Serializable{
 	@NotBlank
 	@Enumerated(EnumType.STRING)
 	private Municipio municipio;
+	
 	@NotBlank
 	private String latitude;
+	
 	@NotBlank
 	private String longitude;
+	
 	@NotBlank
 	@Enumerated(EnumType.STRING)
 	private SimNao postoDeSaude;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="localidade")
 	private List<Escola> escolas;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="localidade")
 	private List<Residencia> residencia;
 	
