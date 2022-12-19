@@ -8,7 +8,9 @@ ALTER TABLE `localidade_entrevistador` ADD CONSTRAINT `fk_localidade_localidade_
 
 
 ALTER TABLE `residencia` ADD CONSTRAINT `fk_localidade_residencia` FOREIGN KEY ( `localidade` ) REFERENCES `localidade` ( `id` );
-ALTER TABLE `residencia` ADD CONSTRAINT `fk_entrevistado_residencia` FOREIGN KEY ( `entrevistado` ) REFERENCES `entrevistado` ( `id` );
+
+
+ALTER TABLE `entrevistado` ADD CONSTRAINT `fk_residencia_entrevistado` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );
 
 ALTER TABLE `dados_de_consumo` ADD CONSTRAINT `fk_resdencia_dados_de_consuo` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );
 
@@ -27,7 +29,7 @@ ALTER TABLE `servicos_basicos` ADD CONSTRAINT `fk_residencia_servicos_basicos` F
 ALTER TABLE `credito` ADD CONSTRAINT `fk_residencia_credito` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );
 ALTER TABLE `morador` ADD CONSTRAINT `fk_residencia_morador` FOREIGN KEY ( `residencia`) REFERENCES `residencia` ( `id` );
 
-ALTER TABLE `indicado_consulta_publica` ADD CONSTRAINT `fk_entrevistado_indicado_connsulta_publica` FOREIGN KEY ( `entrevistado`) REFERENCES `entrevistado` ( `id` );
+ALTER TABLE `indicado_consulta_publica` ADD CONSTRAINT `fk_entrevistado_indicado_consulta_publica` FOREIGN KEY ( `entrevistado`) REFERENCES `entrevistado` ( `id` );
 
 
 

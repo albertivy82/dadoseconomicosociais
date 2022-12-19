@@ -1,5 +1,6 @@
 CREATE TABLE `localidade` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
   `latitude` varchar(255) NOT NULL,
   `longitude` varchar(255) NOT NULL,
   `municipio` varchar(100) NOT NULL,
@@ -43,8 +44,7 @@ CREATE TABLE `residencia` (
   `relacao_area` varchar(255) NOT NULL,
   `relacao_vizinhos` varchar(255) NOT NULL,
   `localidade` bigint(30) NOT NULL,
-  `entrevistado` bigint(30) NOT NULL,
-  PRIMARY KEY (`id`)
+   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
 
@@ -53,6 +53,8 @@ CREATE TABLE `entrevistado` (
   `nome` varchar(255) DEFAULT NULL,
   `apelido` varchar(100) DEFAULT NULL,
   `naturalidade` varchar(100) DEFAULT NULL,
+  `localidade` bigint(30) NOT NULL,
+  `residencia` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
@@ -140,7 +142,7 @@ CREATE TABLE `dados_de_consumo` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
-CREATE TABLE `indicado_connsulta_publica` (
+CREATE TABLE `indicado_consulta_publica` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) NOT NULL,
   `perfil` varchar(100) NOT NULL,

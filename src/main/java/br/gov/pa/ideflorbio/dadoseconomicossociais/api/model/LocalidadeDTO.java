@@ -5,8 +5,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EntrevistadoIdNomeDTO {
+public class LocalidadeDTO {
 	
+    
 	private String nome;
+		
+	private String municipio;
+	
+	private String latitude;
+	
+	private String longitude;
 	
 }

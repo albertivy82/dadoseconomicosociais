@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.MoradoresRepository;
 
 @Service
-public class MoradoresService {
+public class MoradoreService {
 	
 	@Autowired
 	MoradoresRepository moradores;

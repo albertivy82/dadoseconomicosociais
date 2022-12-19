@@ -6,7 +6,6 @@ import lombok.Getter;
 public class ViolenciasSofridasDTO {
 	
    	private String tipo;
-	
 	private int ocorrencias;
 
 }

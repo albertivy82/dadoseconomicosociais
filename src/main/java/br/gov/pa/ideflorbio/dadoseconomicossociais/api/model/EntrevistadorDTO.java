@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EntrevistadoIdNomeDTO {
+public class EntrevistadorDTO {
 	
-	private String nome;
-	
+	private String Nome;
+
 }

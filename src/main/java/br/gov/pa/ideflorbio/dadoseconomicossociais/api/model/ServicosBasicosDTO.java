@@ -5,8 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EntrevistadoIdNomeDTO {
+public class ServicosBasicosDTO {
 	
-	private String nome;
+	private String tipoAtendimento;
 	
+	private String servicosDeficitarios;
+	
+	
+
 }

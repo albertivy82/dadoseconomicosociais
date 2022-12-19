@@ -29,7 +29,7 @@ public class Entrevistador implements Serializable {
 	private Long id;
 	
 	@NotBlank
-	private String Nome;
+	private String nome;
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy="entrevistador")

@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,6 +37,9 @@ public class Localidade implements Serializable{
 	private Long id;
 	
 	@NotBlank
+	private String nome;
+	
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Municipio municipio;
 	
@@ -45,7 +49,7 @@ public class Localidade implements Serializable{
 	@NotBlank
 	private String longitude;
 	
-	@NotBlank
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao postoDeSaude;
 	
