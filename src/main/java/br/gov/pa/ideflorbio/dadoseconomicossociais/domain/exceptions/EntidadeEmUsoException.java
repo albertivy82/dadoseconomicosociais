@@ -1,10 +1,10 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions;
 
-public class EntidadeEmUso extends NegocioException {
+public class EntidadeEmUsoException extends NegocioException {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public EntidadeEmUso(String messagem) {
+	public EntidadeEmUsoException(String messagem) {
 		super(messagem);
 		
 	}

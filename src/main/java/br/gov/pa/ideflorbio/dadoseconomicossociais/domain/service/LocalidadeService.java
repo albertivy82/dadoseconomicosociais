@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeReciboDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.LocalidadeInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUso;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Localidade;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.LocalidadesRepository;
@@ -77,7 +77,7 @@ public class LocalidadeService {
 			
 		}catch(DataIntegrityViolationException e) {
 			
-			throw new EntidadeEmUso(String.format(ENTIDADE_EM_USO, id));
+			throw new EntidadeEmUsoException(String.format(ENTIDADE_EM_USO, id));
 		}
 	}	
 	

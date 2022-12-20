@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EscolaReciboDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EscolaInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUso;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EscolaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Escola;
@@ -50,31 +50,34 @@ public class EscolaService {
 		return mapper.map(escolas.save(escola), EscolaReciboDTO.class);
 	}
 	
+	
 	public EscolaReciboDTO atualizar(Long id, EscolaInput escolaInput) {
 		
-		try {
+		
 		Escola escolaAtual = escolas.findById(id)
 				.orElseThrow(()-> new EscolaNaoEncontradaException(id));
-		}catch()
 		
-	
+		mapper.map(escolaInput, escolaAtual);
 		
+		EscolaInput novoInput = mapper.map(escolaAtual, EscolaInput.class);
+		
+		return inserir(novoInput);
 	}
 	
 	
 	
-	public Page<LocalidadeDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
+	public Page<EscolaReciboDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
 		
-	   return localidades.findAll(paginacao).map(p -> mapper.map(p, LocalidadeDTO.class)); 
+	   return escolas.findAll(paginacao).map(p -> mapper.map(p, EscolaReciboDTO.class)); 
 		
 	}
 	
-	public LocalidadeDTO localizarEntidade(Long id) {
+	public EscolaReciboDTO localizarEntidade(Long id) {
 		
 			Escola escola = escolas.findById(id)
 					.orElseThrow(()-> new EscolaNaoEncontradaException(id));
 		
-		return mapper.map(escola, EscolaDTO.class);
+		return mapper.map(escola, EscolaReciboDTO.class);
 	}
 		
 	@Transactional
@@ -88,7 +91,7 @@ public class EscolaService {
 			
 		}catch(DataIntegrityViolationException e) {
 			
-			throw new EntidadeEmUso(String.format(ENTIDADE_EM_USO, id));
+			throw new EntidadeEmUsoException(String.format(ENTIDADE_EM_USO, id));
 		}
 	}	
 	

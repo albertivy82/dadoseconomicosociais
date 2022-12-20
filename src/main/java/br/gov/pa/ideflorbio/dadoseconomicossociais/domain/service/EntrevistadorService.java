@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadorDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EntrevistadorInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUso;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadorNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistador;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.EntrevistadoresRepository;
@@ -81,7 +81,7 @@ public class EntrevistadorService {
 		}catch(EmptyResultDataAccessException e) {
 			throw new EntrevistadorNaoEncontradoException(id);
 		}catch(DataIntegrityViolationException e) {
-			throw new EntidadeEmUso(String.format(ENTIDADE_EM_USO, id));
+			throw new EntidadeEmUsoException(String.format(ENTIDADE_EM_USO, id));
 		}
 		
 		

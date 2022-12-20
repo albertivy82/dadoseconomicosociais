@@ -12,7 +12,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaListaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaReciboDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUso;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Localidade;
@@ -76,7 +76,7 @@ public class ResidenciaService {
 			
 		}catch(DataIntegrityViolationException e) {
 			
-			throw new EntidadeEmUso(String.format(ENTIDADE_EM_USO, id));
+			throw new EntidadeEmUsoException(String.format(ENTIDADE_EM_USO, id));
 		}
 	}	
 	
