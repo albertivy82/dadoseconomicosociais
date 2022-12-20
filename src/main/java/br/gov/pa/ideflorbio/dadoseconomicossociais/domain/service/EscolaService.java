@@ -9,7 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EscolaReciboDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EscolaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EscolaNaoEncontradaException;

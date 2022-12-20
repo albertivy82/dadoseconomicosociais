@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
-
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.NegocioException;

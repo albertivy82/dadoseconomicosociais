@@ -49,17 +49,29 @@ public class ResidenciaService {
 		return mapper.map(residencias.save(residencia), ResidenciaReciboDTO.class);
 	}
 	
+	@Transactional
+	public ResidenciaReciboDTO atualizar(Long id, ResidenciaInput residenciaInput) {
+		
+		Residencia residenciaAtual = residencias.findById(id)
+				.orElseThrow(()-> new ResidenciaNaoEncontradaException(id));
+		mapper.map(residenciaInput, residenciaAtual);
+		
+		ResidenciaInput novoInput = mapper.map(residenciaAtual, ResidenciaInput.class);
+		
+		return inserir(novoInput);
+	}
+	
 		
 	public Page<ResidenciaListaDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
 		
-	   return localidades.findAll(paginacao).map(p -> mapper.map(p, ResidenciaListaDTO.class)); 
+	   return residencias.findAll(paginacao).map(p -> mapper.map(p, ResidenciaListaDTO.class)); 
 		
 	}
 	
 	public ResidenciaDTO localizarEntidade(Long id) {
 		
 			Residencia residencia = residencias.findById(id)
-					.orElseThrow(()-> new LocalidadeNaoEncontradaException(id));
+					.orElseThrow(()-> new ResidenciaNaoEncontradaException(id));
 		
 		return mapper.map(residencia, ResidenciaDTO.class);
 	}

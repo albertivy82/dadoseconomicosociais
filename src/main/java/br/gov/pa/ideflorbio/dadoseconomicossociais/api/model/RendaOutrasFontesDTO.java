@@ -13,7 +13,7 @@ public class RendaOutrasFontesDTO {
 	
 	private String fonte;
 	
-	private int beneficiados;
+	private int beneficiarios;
 	
 	private BigDecimal RendaMesTotal;
 

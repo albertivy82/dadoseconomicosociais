@@ -42,7 +42,7 @@ public class ResidenciaInput {
 	private Date dataChegada;
 	
 	
-	@NotBlank
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao pretendeMudar;
 	

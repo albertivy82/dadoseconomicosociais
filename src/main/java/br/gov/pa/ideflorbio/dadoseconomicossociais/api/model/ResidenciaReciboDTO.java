@@ -42,7 +42,7 @@ public class ResidenciaReciboDTO {
 	}
 
 	public void setRua(String rua) {
-		if(rua.equals(null)) {
+		if(rua == null) {
 			this.rua = "Rua não identificada";
 		}
 		this.rua = rua;
@@ -53,7 +53,7 @@ public class ResidenciaReciboDTO {
 	}
 
 	public void setNumero(String numero) {
-		if(numero.equals(null)) {
+		if(numero==null) {
 			this.numero = "S/N";
 		}
 		this.numero = numero;
@@ -65,7 +65,7 @@ public class ResidenciaReciboDTO {
 
 	public void setBairro(String bairro) {
 		
-		if(bairro.equals(null)) {
+		if(bairro==null) {
 			this.bairro = "bairro não identificado";
 		}
 		

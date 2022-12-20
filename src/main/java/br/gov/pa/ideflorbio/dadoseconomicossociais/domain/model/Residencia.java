@@ -66,11 +66,11 @@ public class Residencia implements Serializable{
 	@DateTimeFormat(pattern = "YYYY-MM-DD")
 	private Date dataChegada;
 	
-	@NotBlank
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao pretendeMudar;
 
-	private String MotivoVontadeMudança;
+	private String MotivoVontadeMudanca;
 	
 	@NotBlank
 	private String relacaoArea;
@@ -79,7 +79,7 @@ public class Residencia implements Serializable{
 	private String relacaoVizinhos;
 	
 	
-	@NotBlank
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="localidade")
 	private Localidade localidade;

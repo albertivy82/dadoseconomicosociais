@@ -41,6 +41,7 @@ CREATE TABLE `residencia` (
   `imovel` varchar(100) NOT NULL,
   `data_chegada` date NOT NULL,
   `pretende_mudar` varchar(255) NOT NULL,
+  `motivo_vontade_mudanca` varchar(255) DEFAULT NULL,  
   `relacao_area` varchar(255) NOT NULL,
   `relacao_vizinhos` varchar(255) NOT NULL,
   `localidade` bigint(30) NOT NULL,
@@ -136,7 +137,7 @@ CREATE TABLE `morador_doenca` (
 
 CREATE TABLE `dados_de_consumo` (
   `id` bigint(30) NOT NULL AUTO_INCREMENT,
-  `alimentacao` varchar(255) NOT NULL,
+  `alimentacao_principal` varchar(255) NOT NULL,
   `local_de_compras` varchar(255) NOT NULL,
   `residencia` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)

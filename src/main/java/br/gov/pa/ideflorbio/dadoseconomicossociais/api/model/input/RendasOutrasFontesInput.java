@@ -21,7 +21,7 @@ public class RendasOutrasFontesInput {
 	private FontesRenda fonte;
 	
 	@NotNull
-	private int beneficiados;
+	private int beneficiarios;
 	
 	@NotNull
 	@PositiveOrZero(message = "informe um valor válido")
