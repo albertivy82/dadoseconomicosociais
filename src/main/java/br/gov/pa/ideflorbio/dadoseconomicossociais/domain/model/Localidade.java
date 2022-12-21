@@ -1,7 +1,10 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -65,11 +68,11 @@ public class Localidade implements Serializable{
 	@JoinTable(
 	        name="localidade_entrevistador",
 	        joinColumns=
-	            {@JoinColumn(name="localidade")},
+	            @JoinColumn(name="localidade"),
 	        inverseJoinColumns=
-	            {@JoinColumn(name="entrevistador")}
+	            @JoinColumn(name="entrevistador")
 	    )
-	private List<Entrevistador> entrevistador;
+	private Set<Entrevistador> entrevistador = new HashSet<>();
 	
 
 }

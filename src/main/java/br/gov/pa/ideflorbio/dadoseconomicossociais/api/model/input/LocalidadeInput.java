@@ -1,10 +1,13 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input;
 
+import java.util.List;
+
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistador;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Municipio;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
 import lombok.Getter;
@@ -31,5 +34,8 @@ public class LocalidadeInput {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private SimNao postoDeSaude;
+	
+	private List<Entrevistador> entrevistador;
+	
 	
 }
