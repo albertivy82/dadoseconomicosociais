@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadorDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeReciboDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.LocalidadeInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadorNaoEncontradoException;
@@ -38,15 +37,15 @@ public class LocalidadeService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public LocalidadeReciboDTO inserir(LocalidadeInput localidadeInput) {
+	public LocalidadeDTO inserir(LocalidadeInput localidadeInput) {
 		
 		Localidade localidade = mapper.map(localidadeInput, Localidade.class);
 		
-		return mapper.map(localidades.save(localidade), LocalidadeReciboDTO.class);
+		return mapper.map(localidades.save(localidade), LocalidadeDTO.class);
 	}
 	
 	@Transactional
-	public LocalidadeReciboDTO atualizar(Long id, LocalidadeInput localidadeInput) {
+	public LocalidadeDTO atualizar(Long id, LocalidadeInput localidadeInput) {
 		
 		Localidade localidadeAtual = localidades.findById(id)
 				.orElseThrow(()-> new LocalidadeNaoEncontradaException(id));
@@ -55,7 +54,7 @@ public class LocalidadeService {
 		
 		localidadeAtual = localidades.save(localidadeAtual);
 		
-		return mapper.map(localidadeAtual, LocalidadeReciboDTO.class);
+		return mapper.map(localidadeAtual, LocalidadeDTO.class);
 		
 	}
 	

@@ -18,11 +18,11 @@ public class ResidenciaToLocaliadadeDTO {
 	
 	private String imovel;
 	
-	private List<AtividadeProdutivaResumoDTO> atividadeProdutiva;
+	private List<AtividadeProdutivaDTO> atividadeProdutiva;
 	
-	private List<RendaOutrasResumoFontesDTO> rendaOutrasFontes;
+	private List<RendaOutrasFontesDTO> rendaOutrasFontes;
 	
-	private List<CreditoResumoDTO> credito;
+	private List<CreditoDTO> credito;
 		
 	private EntrevistadoIdNomeDTO entrevistado;
 	

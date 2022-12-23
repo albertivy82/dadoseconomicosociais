@@ -3,9 +3,11 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model;
 import java.util.List;
 
 import lombok.Getter;
+import lombok.Setter;
 
 
 @Getter
+@Setter
 public class EntrevistadoDTO {
 
 	
@@ -25,13 +27,12 @@ public class EntrevistadoDTO {
 	
 	private List<InstituicoesConhecidasDTO> instituicaoConhecida;
 	
-	private List<AtividadesEconomicasDTO> atividadeEconomica;
+	private List<AtividadeProdutivaDTO> atividadeProdutiva;
 	
-	private List<CreditoObtidosDTO> credito;
+	private List<CreditoDTO> credito;
 	
 	private List<MoradoresVinculadosDTO> morador;
 	
-	//private MoradiaConexao moradia;
 	
 	
 }

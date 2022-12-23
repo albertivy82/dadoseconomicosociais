@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeReciboDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.LocalidadeInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.LocalidadeService;
 
@@ -33,7 +32,7 @@ public class LocalidadeController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
-	public LocalidadeReciboDTO adicionar(@RequestBody @Valid LocalidadeInput localidadeInput) {
+	public LocalidadeDTO adicionar(@RequestBody @Valid LocalidadeInput localidadeInput) {
 		return localidadeCadastro.inserir(localidadeInput);
 	}
 	
@@ -48,7 +47,7 @@ public class LocalidadeController {
 	}
 	
 	@PutMapping("/{id}")
-	public LocalidadeReciboDTO atualizar(@PathVariable Long id, 
+	public LocalidadeDTO atualizar(@PathVariable Long id, 
 			@RequestBody @Valid LocalidadeInput localidadeInput) {
 		
 		return localidadeCadastro.atualizar(id, localidadeInput);

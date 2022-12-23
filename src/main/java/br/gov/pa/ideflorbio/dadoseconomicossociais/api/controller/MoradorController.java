@@ -21,7 +21,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.MoradoresServi
 
 
 @RestController
-@RequestMapping("/maradores")
+@RequestMapping("/moradores")
 public class MoradorController {
 	
 	
@@ -57,12 +57,12 @@ public class MoradorController {
 		moradoresCadastro.excluir(id);
 	}
 	
-	@PutMapping("/{id}/doencas/{idDoncas}")
+	@PutMapping("/{id}/doencas/{idDoencas}")
 	public void vincularDoenca(@PathVariable Long id, @PathVariable Long idDoencas) {
 		moradoresCadastro.vincularDoenca(id, idDoencas);
 	}
 	
-	@DeleteMapping("/{id}/doencas/{idDoncas}")
+	@DeleteMapping("/{id}/doencas/{idDoencas}")
 	public void desvincularDoenca(@PathVariable Long id, @PathVariable Long idDoencas) {
 		moradoresCadastro.desvicunlarDoenca(id, idDoencas);
 	}

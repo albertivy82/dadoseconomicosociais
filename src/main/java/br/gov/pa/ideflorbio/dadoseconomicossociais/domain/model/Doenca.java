@@ -31,7 +31,7 @@ public class Doenca implements Serializable{
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Molestias DoencaNome;
+	private Molestias doencaNome;
 	
 	@ManyToMany(mappedBy = "doenca")
 	private List<Morador> morador;

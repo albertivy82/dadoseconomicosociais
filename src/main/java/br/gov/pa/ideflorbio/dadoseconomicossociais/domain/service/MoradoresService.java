@@ -74,7 +74,7 @@ public class MoradoresService {
 		Doenca doenca = doencas.findById(idDoenca)
 				.orElseThrow(()-> new DoencaNaoEncontradaException(idDoenca));
 		
-		morador.getDoenca().remove(doenca);
+		morador.getDoenca().add(doenca);
 		
 	}	
 	
@@ -86,7 +86,7 @@ public class MoradoresService {
 		Doenca doenca = doencas.findById(idDoenca)
 				.orElseThrow(()-> new DoencaNaoEncontradaException(idDoenca));
 		
-		morador.getDoenca().add(doenca);
+		morador.getDoenca().remove(doenca);
 		
 	}	
 	

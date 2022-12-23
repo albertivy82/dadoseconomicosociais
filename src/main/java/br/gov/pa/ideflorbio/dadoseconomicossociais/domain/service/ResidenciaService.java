@@ -9,8 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaListaDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaReciboDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
@@ -37,7 +35,7 @@ public class ResidenciaService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public ResidenciaReciboDTO inserir(ResidenciaInput residenciaInput) {
+	public ResidenciaDTO inserir(ResidenciaInput residenciaInput) {
 		
 		Long idLocalidade = residenciaInput.getLocalidade().getId();
 		Localidade localidade = localidades.findById(idLocalidade)
@@ -46,11 +44,11 @@ public class ResidenciaService {
 		Residencia residencia = mapper.map(residenciaInput, Residencia.class);
 		residencia.setLocalidade(localidade);
 		
-		return mapper.map(residencias.save(residencia), ResidenciaReciboDTO.class);
+		return mapper.map(residencias.save(residencia), ResidenciaDTO.class);
 	}
 	
 	@Transactional
-	public ResidenciaReciboDTO atualizar(Long id, ResidenciaInput residenciaInput) {
+	public ResidenciaDTO atualizar(Long id, ResidenciaInput residenciaInput) {
 		
 		Residencia residenciaAtual = residencias.findById(id)
 				.orElseThrow(()-> new ResidenciaNaoEncontradaException(id));
@@ -62,9 +60,9 @@ public class ResidenciaService {
 	}
 	
 		
-	public Page<ResidenciaListaDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
+	public Page<ResidenciaDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
 		
-	   return residencias.findAll(paginacao).map(p -> mapper.map(p, ResidenciaListaDTO.class)); 
+	   return residencias.findAll(paginacao).map(p -> mapper.map(p, ResidenciaDTO.class)); 
 		
 	}
 	

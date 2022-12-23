@@ -11,7 +11,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DoencaDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.doencaInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DoencaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DoencaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadorNaoEncontradoException;
@@ -32,21 +32,21 @@ public class DoencaService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public DoencaDTO inserir(doencaInput doencaInput) {
+	public DoencaDTO inserir(DoencaInput DoencaInput) {
 		
-		Doenca doenca = mapper.map(doencaInput, Doenca.class);
+		Doenca doenca = mapper.map(DoencaInput, Doenca.class);
 		
 		return mapper.map(doencas.save(doenca), DoencaDTO.class);	
 	}
 	
 	
 	@Transactional
-	public DoencaDTO atualizar(Long id, doencaInput doencaInput) {
+	public DoencaDTO atualizar(Long id, DoencaInput DoencaInput) {
 		
 		Doenca doencaAtual = doencas.findById(id)
 				.orElseThrow(()->new DoencaNaoEncontradaException(id));
 		
-		mapper.map(doencaInput, doencaAtual);
+		mapper.map(DoencaInput, doencaAtual);
 		
 		doencaAtual = doencas.save(doencaAtual);
 		
@@ -61,12 +61,13 @@ public class DoencaService {
 		return doencas.findAll(paginacao).map(p -> mapper.map(p, DoencaDTO.class));
 	}
 	
-	
-	public DoencaDTO buscarPorNome(String nome) {
-		Doenca doenca = doencas.findByName(nome)
-				.orElseThrow(()->new EntrevistadorNaoEncontradoException(nome));
+	public DoencaDTO localzarentidade(Long id) {
+		
+		Doenca doenca = doencas.findById(id)
+				.orElseThrow(()->new DoencaNaoEncontradaException(id));
 		
 		return mapper.map(doenca, DoencaDTO.class);
+		
 	}
 	
 	@Transactional

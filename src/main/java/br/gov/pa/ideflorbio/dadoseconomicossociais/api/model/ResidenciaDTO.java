@@ -36,7 +36,7 @@ public class ResidenciaDTO {
 	
 	private LocalidadeDTO localidade;
 	
-	private EntrevistadoNomeDTO entrevistado;
+	private EntrevistadoIdNomeDTO entrevistado;
 	
 	private DadosDeConsumoDTO consumo;
 	

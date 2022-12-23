@@ -113,7 +113,7 @@ CREATE TABLE `morador` (
   `escolaridade` varchar(255) NOT NULL,
   `estado_civil` varchar(255) NOT NULL,
   `idade` int(3) NOT NULL,
-  `onde_estuda` varchar(255) NOT NULL,
+  `onde_estuda` varchar(255) DEFAULT NULL,
   `perfil` varchar(255) NOT NULL,
   `religiao` varchar(255) NOT NULL,
   `sexo` varchar(255) NOT NULL,

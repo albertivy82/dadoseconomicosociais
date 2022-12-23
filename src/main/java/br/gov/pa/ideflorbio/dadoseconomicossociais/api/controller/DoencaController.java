@@ -1,9 +1,6 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
-
-
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,47 +14,46 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.ResidenciaService;
-
-
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DoencaDTO;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DoencaInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.DoencaService;
 
 
 @RestController
-@RequestMapping("/residencias")
-public class ResidenciaController {
+@RequestMapping("/doencas")
+public class DoencaController {
+	
 	
 	@Autowired
-	ResidenciaService residenciaCadastro;
+	DoencaService doencasCadastro;
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
-	public ResidenciaDTO adicionar(@RequestBody @Valid ResidenciaInput residenciaInput) {
-		return residenciaCadastro.inserir(residenciaInput);
+	public DoencaDTO adicionar(@RequestBody @Valid DoencaInput doencaInput) {
+		return doencasCadastro.inserir(doencaInput);
 	}
 	
 	@GetMapping
-	public Page<ResidenciaDTO> listar(Pageable paginacao){
-		return residenciaCadastro.listarTodos(paginacao);
+	public Page<DoencaDTO> listar(Pageable paginacao){
+		return doencasCadastro.listarTodos(paginacao);
 	}
 	
 	@GetMapping("/{id}")
-	public ResidenciaDTO Buscar(@PathVariable Long id) {
-		return residenciaCadastro.localizarEntidade(id);
+	public DoencaDTO Buscar(@PathVariable Long id) {
+		return doencasCadastro.localzarentidade(id);
 	}
 	
 	@PutMapping("/{id}")
-	public ResidenciaDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid ResidenciaInput residenciaInput) {
+	public DoencaDTO atualizar(@PathVariable Long id, 
+			@RequestBody @Valid DoencaInput doencaInput) {
 		
-		return residenciaCadastro.atualizar(id, residenciaInput);
+		return doencasCadastro.atualizar(id, doencaInput);
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {
-		residenciaCadastro.excluir(id);
+		doencasCadastro.apagar(id);
 	}
-
-}
+	
+}	

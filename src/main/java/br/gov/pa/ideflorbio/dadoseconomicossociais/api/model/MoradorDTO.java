@@ -2,38 +2,36 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model;
 
 import java.sql.Date;
 import java.util.List;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Escolaridade;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.EstadoCivil;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Perfil;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Sexo;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
+
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaIdInput;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class MoradorDTO {
 	
-	private Long id;
 	
 	private Date dataNascimento;
 	
 	private int idade;
 	
-	private Perfil perfil;
+	private String perfil;
 	
-	private Sexo sexo;
+	private String sexo;
 	
-	private EstadoCivil estadoCivil;
+	private String estadoCivil;
 	
-	private Escolaridade escolaridade;
+	private String escolaridade;
 	
-	private SimNao ondeEstuda;
+	private String ondeEstuda;
 	
-	private boolean trabalho;
+	private String trabalho;
 	
 	private String religiao;
 	
 	private List<DoencaDTO> doenca;
 	
-	private EntrevistadoIdNomeDTO entrevistado;
+	private ResidenciaIdInput residencia;
 
 }

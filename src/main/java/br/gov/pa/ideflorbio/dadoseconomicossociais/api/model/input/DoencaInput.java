@@ -10,10 +10,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class doencaInput {
+public class DoencaInput {
 	
 	@NotNull
 	@Enumerated(EnumType.STRING)
-	private Molestias DoencaNome;
+	private Molestias doencaNome;
 
 }
