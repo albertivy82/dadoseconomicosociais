@@ -81,7 +81,7 @@ public class MoradoresService {
 	@Transactional
 	public void desvicunlarDoenca(Long idMorador, Long idDoenca) {
 		Morador morador = moradores.findById(idMorador)
-				.orElseThrow(()-> new ResidenciaNaoEncontradaException(idMorador));
+				.orElseThrow(()-> new MoradorNaoEncontradoException(idMorador));
 		
 		Doenca doenca = doencas.findById(idDoenca)
 				.orElseThrow(()-> new DoencaNaoEncontradaException(idDoenca));

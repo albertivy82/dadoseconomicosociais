@@ -1,0 +1,24 @@
+package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.NotNull;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.ViolenciaTipo;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class ViolenciaInput {
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private ViolenciaTipo tipo;
+	
+	@NotNull
+	private int ocorrencias;
+	
+	@NotNull
+	private ResidenciaIdInput residencia;
+
+}

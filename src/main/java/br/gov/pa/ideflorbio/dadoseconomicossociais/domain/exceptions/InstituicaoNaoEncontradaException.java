@@ -1,15 +1,15 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions;
 
-public class InsituticaoNaoEncontradaException2 extends EntidadeNaoEncontradaException {
+public class InstituicaoNaoEncontradaException extends EntidadeNaoEncontradaException {
 	
 	private static final long serialVersionUID = 1L;
 
-	public InsituticaoNaoEncontradaException2(String message) {
+	public InstituicaoNaoEncontradaException(String message) {
 		super(message);
 		
 	}
 	
-	public InsituticaoNaoEncontradaException2(Long id) {
+	public InstituicaoNaoEncontradaException(Long id) {
 		this(String.format("Dados de instituição de código %d não existem", id));
 	}
 

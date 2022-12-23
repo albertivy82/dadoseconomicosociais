@@ -9,5 +9,6 @@ public class DadosDeConsumoDTO {
 
 	private String alimentacaoPrincipal;
 	private String LocalDeCompras;
+	 
 		
 }

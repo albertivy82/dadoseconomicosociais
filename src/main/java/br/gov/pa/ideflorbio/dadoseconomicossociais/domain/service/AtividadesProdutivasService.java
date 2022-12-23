@@ -14,19 +14,19 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DoencaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DoencaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DoencaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadorNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Doenca;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.AtividadesProdutivasRepository;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.DoencasRepository;
 
 
 @Service
-public class DoencaService {
+public class AtividadesProdutivasService {
 	
 	private static final String ENTIDADE_EM_USO = "A doença de id %d nõ pode ser apagada, pois está "
 			+ "sendo utilizado em um relacionamento";
 	
 	@Autowired
-	DoencasRepository doencas;
+	AtividadesProdutivasRepository atividadesProdutivas;
 	
 	@Autowired
 	ModelMapper mapper;
