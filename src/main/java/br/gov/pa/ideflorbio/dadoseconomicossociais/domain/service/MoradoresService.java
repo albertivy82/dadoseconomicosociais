@@ -90,10 +90,6 @@ public class MoradoresService {
 		
 	}	
 	
-	
-	
-	
-	
 	public Page<MoradorDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
 		
 	   return moradores.findAll(paginacao).map(p -> mapper.map(p, MoradorDTO.class)); 

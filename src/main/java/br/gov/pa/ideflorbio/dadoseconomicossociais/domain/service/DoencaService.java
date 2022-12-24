@@ -14,7 +14,6 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DoencaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DoencaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DoencaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadorNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Doenca;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.DoencasRepository;
 
