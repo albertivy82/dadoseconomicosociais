@@ -82,7 +82,7 @@ public class CreditoService {
 	}
 	
 	@Transactional
-	public void apagar(long id) {
+	public void excluir(long id) {
 		try {
 			creditos.deleteById(id);
 			creditos.flush();

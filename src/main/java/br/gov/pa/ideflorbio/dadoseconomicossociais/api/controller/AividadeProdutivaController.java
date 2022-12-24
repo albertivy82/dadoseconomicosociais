@@ -14,49 +14,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.InstituicoesConhecidasDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.InstituicaoInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.InstituicoesService;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.AtividadeProdutivaDTO;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.AtividadeProdutivaInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.AtividadesProdutivasService;
 
 
 
 
 @RestController
-@RequestMapping("/violencia")
-public class IntituicaoConhecidaController {
+@RequestMapping("/atividade-produtiva")
+public class AividadeProdutivaController {
 	
 	
 	@Autowired
-	InstituicoesService instituicoesCadastro;
+	AtividadesProdutivasService atividadesProdutivasCadastro;
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
-	public InstituicoesConhecidasDTO adicionar(@RequestBody @Valid InstituicaoInput instituicaoInput) {
-		return instituicoesCadastro.inserir(instituicaoInput);
+	public AtividadeProdutivaDTO adicionar(@RequestBody @Valid AtividadeProdutivaInput atividadesInput) {
+		return atividadesProdutivasCadastro.inserir(atividadesInput);
 	}
 	
 	@GetMapping
-	public Page<InstituicoesConhecidasDTO> listar(Pageable paginacao){
-		return instituicoesCadastro.listarTodos(paginacao);
+	public Page<AtividadeProdutivaDTO> listar(Pageable paginacao){
+		return atividadesProdutivasCadastro.listarTodos(paginacao);
 	}
 	
 	@GetMapping("/{id}")
-	public InstituicoesConhecidasDTO Buscar(@PathVariable Long id) {
-		return instituicoesCadastro.localizarEntidade(id);
+	public AtividadeProdutivaDTO Buscar(@PathVariable Long id) {
+		return atividadesProdutivasCadastro.localzarentidade(id);
 	}
 	
 	@PutMapping("/{id}")
-	public InstituicoesConhecidasDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid InstituicaoInput instituicaoInput) {
+	public AtividadeProdutivaDTO atualizar(@PathVariable Long id, 
+			@RequestBody @Valid AtividadeProdutivaInput atividadesInput) {
 		
-		return instituicoesCadastro.atualizar(id, instituicaoInput);
+		return atividadesProdutivasCadastro.atualizar(id, atividadesInput);
 	}
 	
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {
-		instituicoesCadastro.excluir(id);
+		atividadesProdutivasCadastro.excluir(id);
 	}
 	
 

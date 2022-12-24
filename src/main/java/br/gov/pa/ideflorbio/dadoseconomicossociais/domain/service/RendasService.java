@@ -82,7 +82,7 @@ public class RendasService {
 	}
 	
 	@Transactional
-	public void apagar(long id) {
+	public void excluir(long id) {
 		try {
 			rendas.deleteById(id);
 			rendas.flush();

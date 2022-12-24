@@ -85,12 +85,12 @@ public class AtividadesProdutivasService {
 	}
 	
 	@Transactional
-	public void apagar(long id) {
+	public void excluir(long id) {
 		try {
 			atividadesProdutivas.deleteById(id);
 			atividadesProdutivas.flush();
 		}catch(EmptyResultDataAccessException e) {
-			throw new DoencaNaoEncontradaException(id);
+			throw new AtividadeNaoEncontradaException(id);
 		}catch(DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(String.format(ENTIDADE_EM_USO, id));
 		}

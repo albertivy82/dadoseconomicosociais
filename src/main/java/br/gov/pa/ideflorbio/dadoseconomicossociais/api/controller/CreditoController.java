@@ -14,49 +14,49 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.InstituicoesConhecidasDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.InstituicaoInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.InstituicoesService;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.CreditoDTO;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.CreditoInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.CreditoService;
 
 
 
 
 @RestController
-@RequestMapping("/violencia")
-public class IntituicaoConhecidaController {
+@RequestMapping("/credito")
+public class CreditoController {
 	
 	
 	@Autowired
-	InstituicoesService instituicoesCadastro;
+	CreditoService creditoCadastro;
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
-	public InstituicoesConhecidasDTO adicionar(@RequestBody @Valid InstituicaoInput instituicaoInput) {
-		return instituicoesCadastro.inserir(instituicaoInput);
+	public CreditoDTO adicionar(@RequestBody @Valid CreditoInput creitoInput) {
+		return creditoCadastro.inserir(creitoInput);
 	}
 	
 	@GetMapping
-	public Page<InstituicoesConhecidasDTO> listar(Pageable paginacao){
-		return instituicoesCadastro.listarTodos(paginacao);
+	public Page<CreditoDTO> listar(Pageable paginacao){
+		return creditoCadastro.listarTodos(paginacao);
 	}
 	
 	@GetMapping("/{id}")
-	public InstituicoesConhecidasDTO Buscar(@PathVariable Long id) {
-		return instituicoesCadastro.localizarEntidade(id);
+	public CreditoDTO Buscar(@PathVariable Long id) {
+		return creditoCadastro.localzarentidade(id);
 	}
 	
 	@PutMapping("/{id}")
-	public InstituicoesConhecidasDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid InstituicaoInput instituicaoInput) {
+	public CreditoDTO atualizar(@PathVariable Long id, 
+			@RequestBody @Valid CreditoInput creitoInput) {
 		
-		return instituicoesCadastro.atualizar(id, instituicaoInput);
+		return creditoCadastro.atualizar(id, creitoInput);
 	}
 	
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {
-		instituicoesCadastro.excluir(id);
+		creditoCadastro.excluir(id);
 	}
 	
 

@@ -20,7 +20,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.Instituicoe
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.ResidenciasRepository;
 
 @Service
-public class InstiuicoesService {
+public class InstituicoesService {
 	
 	private static final String ENTIDADE_EM_USO 
 	= "A insituição de código %d não pode ser removida, pois está em uso";
