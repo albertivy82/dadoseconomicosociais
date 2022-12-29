@@ -21,7 +21,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.EntrevistadoSe
 
 
 @RestController
-@RequestMapping("/entrevistados")
+@RequestMapping("/entrevistado")
 public class EntrevistadoController {
 	
 	

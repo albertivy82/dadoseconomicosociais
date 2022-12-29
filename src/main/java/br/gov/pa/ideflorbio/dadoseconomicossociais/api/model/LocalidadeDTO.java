@@ -1,7 +1,7 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model;
 
-import java.util.List;
 
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +10,10 @@ import lombok.Setter;
 public class LocalidadeDTO {
 	
     
+	private Long id;
+	
 	private String nome;
-		
+	
 	private String municipio;
 	
 	private String latitude;
@@ -21,5 +23,6 @@ public class LocalidadeDTO {
 	private List<ResidenciaToLocaliadadeDTO> residencia;
 	
 	private List<EscolaToLocalidadeDTO> escola;
+		
 	
 }

@@ -2,6 +2,8 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model;
 
 import java.sql.Date;
 import java.util.List;
+
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +35,7 @@ public class ResidenciaDTO {
 	
 	private String relacaoVizinhos;
 	
-	private LocalidadeDTO localidade;
+	private LocalidadeAssociacaoDTO localidade;
 	
 	private EntrevistadoIdNomeDTO entrevistado;
 	

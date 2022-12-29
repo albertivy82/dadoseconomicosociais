@@ -22,7 +22,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.InstituicoesSe
 
 
 @RestController
-@RequestMapping("/violencia")
+@RequestMapping("/intituicoes-conhecidas")
 public class IntituicaoConhecidaController {
 	
 	

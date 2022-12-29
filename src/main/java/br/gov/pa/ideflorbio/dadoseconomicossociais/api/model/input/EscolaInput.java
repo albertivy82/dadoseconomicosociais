@@ -4,7 +4,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeIdDTO;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +29,6 @@ public class EscolaInput {
 	private SimNao educacaoAmbiental;
 	
 	@NotNull
-	private LocalidadeIdDTO localidade;
+	private LocalidadeIdInput localidade;
 
 }

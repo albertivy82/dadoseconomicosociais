@@ -54,7 +54,6 @@ CREATE TABLE `entrevistado` (
   `nome` varchar(255) DEFAULT NULL,
   `apelido` varchar(100) DEFAULT NULL,
   `naturalidade` varchar(100) DEFAULT NULL,
-  `localidade` bigint(30) NOT NULL,
   `residencia` bigint(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8;

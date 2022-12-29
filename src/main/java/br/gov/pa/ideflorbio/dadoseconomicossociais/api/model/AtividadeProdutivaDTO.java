@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class AtividadeProdutivaDTO {
 	
+		
 	private String atividade;
 	
 	private int pessoasEnvolvidas;

@@ -22,7 +22,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.DadosDeConsumo
 
 
 @RestController
-@RequestMapping("/entrevistados")
+@RequestMapping("/dados-de-consumo")
 public class DadosDeConsumoController {
 	
 	

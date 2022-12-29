@@ -52,7 +52,7 @@ public class ResidenciaToLocaliadadeDTO {
 		
 		private List<CreditoDTO> credito;
 		
-		private  List<MoradorDTO> morador;
+		private List<MoradorDTO> morador;
 		
 		
 		public String getRua() {

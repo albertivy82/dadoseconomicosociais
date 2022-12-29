@@ -6,7 +6,8 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeIdDTO;
+
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeAssociacaoDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Imovel;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.SimNao;
 import lombok.Getter;
@@ -57,7 +58,7 @@ public class ResidenciaInput {
 	
 	
 	@NotNull
-	private LocalidadeIdDTO localidade;
+	private LocalidadeAssociacaoDTO localidade;
 	
 
 }

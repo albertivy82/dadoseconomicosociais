@@ -1,6 +1,6 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model;
 
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaIdInput;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +18,5 @@ public class EntrevistadoDTO {
 	
 	private String naturalidade;
 	
-	private ResidenciaIdInput residencia;
-	
+		
 }

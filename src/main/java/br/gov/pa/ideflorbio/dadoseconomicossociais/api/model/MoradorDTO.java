@@ -3,7 +3,7 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model;
 import java.sql.Date;
 import java.util.List;
 
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaIdInput;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,6 +32,6 @@ public class MoradorDTO {
 	
 	private List<DoencaDTO> doenca;
 	
-	private ResidenciaIdInput residencia;
+	
 
 }

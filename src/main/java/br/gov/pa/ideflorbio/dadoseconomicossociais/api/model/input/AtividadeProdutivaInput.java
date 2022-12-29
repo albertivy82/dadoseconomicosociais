@@ -19,6 +19,7 @@ public class AtividadeProdutivaInput {
 	private AtividadesProdutivas atividade;
 	
 	@NotNull
+	@PositiveOrZero(message = "informe um valor válido")
 	private int pessoasEnvolvidas;
 	
 	@NotNull

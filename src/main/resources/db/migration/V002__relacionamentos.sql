@@ -21,7 +21,7 @@ ALTER TABLE `violencia` ADD CONSTRAINT `fk_residencia_violencia` FOREIGN KEY ( `
 ALTER TABLE `instituicao_conhecida` ADD CONSTRAINT `fk_residencia_instituicao_conhecida` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );
 
 
-ALTER TABLE `atividade_produtiva` ADD CONSTRAINT `fk_residencia_atividade_economica` FOREIGN KEY ( `residencia` ) REFERENCES `entrevistado` ( `id` );
+ALTER TABLE `atividade_produtiva` ADD CONSTRAINT `fk_residencia_atividade_economica` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );
 ALTER TABLE `renda_outras_fontes` ADD CONSTRAINT `fk_residencia_renda_outras_fontes` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );
 
 ALTER TABLE `servicos_basicos` ADD CONSTRAINT `fk_residencia_servicos_basicos` FOREIGN KEY ( `residencia` ) REFERENCES `residencia` ( `id` );

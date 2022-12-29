@@ -6,6 +6,7 @@ public enum AtividadesProdutivas {
 	COMÉRCIO,
 	SERVIÇO,
 	INDÚSTRIA_E_COMÉRCIO,
-	SERVIÇO_E_COMÉRCIO
+	SERVIÇO_E_COMÉRCIO,
+	NENHUMA
 
 }
