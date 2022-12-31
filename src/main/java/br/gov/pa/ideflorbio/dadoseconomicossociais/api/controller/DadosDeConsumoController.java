@@ -1,6 +1,8 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DadosDeConsumoDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DadosDeConsumoInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.DadosDeConsumo;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.DadosDeConsumoService;
 
 
@@ -29,11 +35,35 @@ public class DadosDeConsumoController {
 	@Autowired
 	DadosDeConsumoService dadosDeConsumoCadastro;
 	
+	@Autowired
+	ModelMapper mapper;
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public DadosDeConsumoDTO adicionar(@RequestBody @Valid DadosDeConsumoInput consumoInput) {
-		return dadosDeConsumoCadastro.inserir(consumoInput);
+		try{
+			DadosDeConsumo consumo = mapper.map(consumoInput, DadosDeConsumo.class);
+			return mapper.map(dadosDeConsumoCadastro.inserir(consumo), DadosDeConsumoDTO.class);
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
 	}
+	
+	@PutMapping("/{id}")
+	public DadosDeConsumoDTO atualizar(@PathVariable Long id, 
+			@RequestBody @Valid DadosDeConsumoInput consumoInput) {
+		try {
+			DadosDeConsumo consumoAtual = dadosDeConsumoCadastro.buscarEntidade(id);
+			consumoAtual.setResidencia(new Residencia());
+			mapper.map(consumoInput, consumoAtual);
+			return mapper.map(dadosDeConsumoCadastro.inserir(consumoAtual), DadosDeConsumoDTO.class); 
+			
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
+		
+	}
+	
 	
 	@GetMapping
 	public Page<DadosDeConsumoDTO> listar(Pageable paginacao){
@@ -45,14 +75,7 @@ public class DadosDeConsumoController {
 		return dadosDeConsumoCadastro.localizarEntidade(id);
 	}
 	
-	@PutMapping("/{id}")
-	public DadosDeConsumoDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid DadosDeConsumoInput consumoInput) {
 		
-		return dadosDeConsumoCadastro.atualizar(id, consumoInput);
-	}
-	
-	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {

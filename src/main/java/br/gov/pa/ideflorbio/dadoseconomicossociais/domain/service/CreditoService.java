@@ -10,11 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.CreditoDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.CreditoInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.CreditoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DoencaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.CreditoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Credito;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
@@ -38,30 +38,25 @@ public class CreditoService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public CreditoDTO inserir(CreditoInput creditoInput) {
+	public Credito inserir(Credito credito) {
 		
-		Long idResidencia = creditoInput.getResidencia().getId();
+		Long idResidencia = credito.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		Credito Credito = mapper.map(creditoInput, Credito.class);
-		Credito.setResidencia(residencia);
+		credito.setResidencia(residencia);
 		
-		return mapper.map(creditos.save(Credito), CreditoDTO.class);	
+		return creditos.save(credito);
 	}
 	
 	
 	@Transactional
-	public CreditoDTO atualizar(Long id, CreditoInput creditoInput) {
+	public Credito buscarEntidade(Long id) {
 		
 		Credito creditoAtual = creditos.findById(id)
 				.orElseThrow(()->new DoencaNaoEncontradaException(id));
-		
-		mapper.map(creditoInput, creditoAtual);
-		
-		creditoAtual = creditos.save(creditoAtual);
-		
-		return mapper.map(creditoAtual, CreditoDTO.class);
+				
+		return creditoAtual;
 		
 	}
 	

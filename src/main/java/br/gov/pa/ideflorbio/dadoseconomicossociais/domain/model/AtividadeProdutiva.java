@@ -36,14 +36,14 @@ public class AtividadeProdutiva implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private AtividadesProdutivas atividade;
 	
-	@NotNull
+	
 	private int pessoasEnvolvidas;
 	
-	@NotNull
+	
 	@PositiveOrZero(message = "informe um valor válido")
 	private BigDecimal faturamentoAtividadeMesTotal;
 	
-	@NotNull
+	
 	@ManyToOne
 	@JoinColumn(name="residencia")
 	private Residencia residencia;

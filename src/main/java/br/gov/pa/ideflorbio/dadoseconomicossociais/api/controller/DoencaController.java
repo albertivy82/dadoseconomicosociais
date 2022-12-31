@@ -1,6 +1,8 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DoencaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DoencaInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Doenca;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.DoencaService;
 
 
@@ -27,10 +31,25 @@ public class DoencaController {
 	@Autowired
 	DoencaService doencasCadastro;
 	
+	@Autowired
+	ModelMapper mapper;
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public DoencaDTO adicionar(@RequestBody @Valid DoencaInput doencaInput) {
-		return doencasCadastro.inserir(doencaInput);
+		Doenca doenca = mapper.map(doencaInput, Doenca.class);
+		return mapper.map(doencasCadastro.inserir(doenca), DoencaDTO.class);
+	}
+	
+	@PutMapping("/{id}")
+	public DoencaDTO atualizar(@PathVariable Long id, 
+			@RequestBody @Valid DoencaInput doencaInput) {
+		
+		Doenca doenca = doencasCadastro.buscarEntidade(id);
+		mapper.map(doencaInput, doenca);
+		
+		return mapper.map(doencasCadastro.inserir(doenca), DoencaDTO.class);
+		
 	}
 	
 	@GetMapping
@@ -41,13 +60,6 @@ public class DoencaController {
 	@GetMapping("/{id}")
 	public DoencaDTO Buscar(@PathVariable Long id) {
 		return doencasCadastro.localzarentidade(id);
-	}
-	
-	@PutMapping("/{id}")
-	public DoencaDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid DoencaInput doencaInput) {
-		
-		return doencasCadastro.atualizar(id, doencaInput);
 	}
 	
 	@DeleteMapping("/{id}")

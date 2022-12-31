@@ -9,8 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadoDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EntrevistadoInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.AtividadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
@@ -37,28 +38,25 @@ public class EntrevistadoService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public EntrevistadoDTO inserir(EntrevistadoInput entrevistadoInput) {
+	public Entrevistado inserir(Entrevistado entrevistado) {
 		
-		Long idResidencia = entrevistadoInput.getResidencia().getId();
+		Long idResidencia = entrevistado.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		Entrevistado Entrevistado = mapper.map(entrevistadoInput, Entrevistado.class);
-		Entrevistado.setResidencia(residencia);
+		entrevistado.setResidencia(residencia);
 		
-		return mapper.map(entrevistados.save(Entrevistado), EntrevistadoDTO.class);
+		return entrevistados.save(entrevistado);
 	}
 	
+	
 	@Transactional
-	public EntrevistadoDTO atualizar(Long id, EntrevistadoInput entrevistadoInput) {
+	public Entrevistado buscarEntidade(Long id) {
 		
-		Entrevistado entrevistadoAtual = entrevistados.findById(id)
-				.orElseThrow(()-> new EntrevistadoNaoEncontradoException(id));
-		mapper.map(entrevistadoInput, entrevistadoAtual);
+		Entrevistado entrevistado = entrevistados.findById(id)
+				.orElseThrow(()->new AtividadeNaoEncontradaException(id));	
 		
-		EntrevistadoInput novoInput = mapper.map(entrevistadoAtual, EntrevistadoInput.class);
-		
-		return inserir(novoInput);
+		return entrevistado;
 	}
 	
 	public Page<EntrevistadoDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){

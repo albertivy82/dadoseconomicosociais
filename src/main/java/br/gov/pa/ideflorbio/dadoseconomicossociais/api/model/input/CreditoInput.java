@@ -15,7 +15,7 @@ public class CreditoInput {
 	@NotBlank 
 	private String nome;
 	
-	@NotBlank
+	@NotNull
 	@PositiveOrZero(message = "informe um valor válido")
 	private BigDecimal valor;
 	

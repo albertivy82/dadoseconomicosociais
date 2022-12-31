@@ -63,8 +63,6 @@ public class Morador implements Serializable{
 	@Enumerated(EnumType.STRING)
 	private Escolaridade escolaridade;
 	
-	
-
 	private String ondeEstuda;
 	
 	@NotNull

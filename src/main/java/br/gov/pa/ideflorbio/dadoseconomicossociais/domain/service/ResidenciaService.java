@@ -9,7 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
@@ -34,30 +33,23 @@ public class ResidenciaService {
 	@Autowired
 	ModelMapper mapper;
 	
-	@Transactional
-	public ResidenciaDTO inserir(ResidenciaInput residenciaInput) {
-		
-		Long idLocalidade = residenciaInput.getLocalidade().getId();
-		Localidade localidade = localidades.findById(idLocalidade)
-		.orElseThrow(()->new LocalidadeNaoEncontradaException(idLocalidade));
-		
-		Residencia residencia = mapper.map(residenciaInput, Residencia.class);
-		residencia.setLocalidade(localidade);
-		
-		return mapper.map(residencias.save(residencia), ResidenciaDTO.class);
+	public Residencia buscarEntidade(Long id) {
+		return residencias.findById(id)
+				.orElseThrow(()-> new ResidenciaNaoEncontradaException(id));
 	}
 	
 	@Transactional
-	public ResidenciaDTO atualizar(Long id, ResidenciaInput residenciaInput) {
+	public Residencia inserir(Residencia residencia) {
 		
-		Residencia residenciaAtual = residencias.findById(id)
-				.orElseThrow(()-> new ResidenciaNaoEncontradaException(id));
-		mapper.map(residenciaInput, residenciaAtual);
+		Long idLocalidade = residencia.getLocalidade().getId();
+			Localidade localidade = localidades.findById(idLocalidade)
+					.orElseThrow(()->new LocalidadeNaoEncontradaException(idLocalidade));
 		
-		ResidenciaInput novoInput = mapper.map(residenciaAtual, ResidenciaInput.class);
+		residencia.setLocalidade(localidade);
 		
-		return inserir(novoInput);
+		return residencias.save(residencia);
 	}
+	
 	
 		
 	public Page<ResidenciaDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
@@ -68,8 +60,7 @@ public class ResidenciaService {
 	
 	public ResidenciaDTO localizarEntidade(Long id) {
 		
-			Residencia residencia = residencias.findById(id)
-					.orElseThrow(()-> new ResidenciaNaoEncontradaException(id));
+			Residencia residencia = buscarEntidade(id);
 		
 		return mapper.map(residencia, ResidenciaDTO.class);
 	}

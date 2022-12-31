@@ -1,6 +1,8 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadoDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EntrevistadoInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistado;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.EntrevistadoService;
 
 
@@ -28,12 +35,37 @@ public class EntrevistadoController {
 	@Autowired
 	EntrevistadoService entrevistadosCadastro;
 	
+	@Autowired
+	ModelMapper mapper;
+	
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public EntrevistadoDTO adicionar(@RequestBody @Valid EntrevistadoInput entrevistadoInput) {
-		return entrevistadosCadastro.inserir(entrevistadoInput);
+		
+		try {
+			Entrevistado entrevistado = mapper.map(entrevistadoInput, Entrevistado.class);
+			return mapper.map(entrevistadosCadastro.inserir(entrevistado), EntrevistadoDTO.class);
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
+		
 	}
 	
+	@PutMapping("/{id}")
+	public EntrevistadoDTO atualizar(@PathVariable Long id,
+			@RequestBody @Valid EntrevistadoInput atividadesInput) {
+		
+		try {
+			 Entrevistado entrevistado =  entrevistadosCadastro.buscarEntidade(id);
+			 entrevistado.setResidencia(new Residencia());
+			 mapper.map(atividadesInput, entrevistado);
+			return mapper.map(entrevistadosCadastro.inserir(entrevistado), EntrevistadoDTO.class);
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
+	}
+
 	@GetMapping
 	public Page<EntrevistadoDTO> listar(Pageable paginacao){
 		return entrevistadosCadastro.listarTodos(paginacao);
@@ -43,14 +75,6 @@ public class EntrevistadoController {
 	public EntrevistadoDTO Buscar(@PathVariable Long id) {
 		return entrevistadosCadastro.localizarEntidade(id);
 	}
-	
-	@PutMapping("/{id}")
-	public EntrevistadoDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid EntrevistadoInput entrevistadoInput) {
-		
-		return entrevistadosCadastro.atualizar(id, entrevistadoInput);
-	}
-	
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

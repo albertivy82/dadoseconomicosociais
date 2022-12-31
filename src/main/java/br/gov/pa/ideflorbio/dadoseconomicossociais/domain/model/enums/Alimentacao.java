@@ -6,6 +6,7 @@ public enum Alimentacao {
 	AVES,
 	CARNES,
 	VEJETAIS,
-	MARISCOS
+	MARISCOS,
+	VARIADO
 
 }

@@ -9,10 +9,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DadosDeConsumoDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DadosDeConsumoInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DadosDeConsumoNaoEncontradoException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.DadosDeConsumo;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
@@ -36,29 +36,25 @@ public class DadosDeConsumoService {
 	@Autowired
 	ModelMapper mapper;
 	
+	
+		
 	@Transactional
-	public DadosDeConsumoDTO inserir(DadosDeConsumoInput dadosDeConsumoInput) {
+	public DadosDeConsumo inserir(DadosDeConsumo dadosDeConsumo) {
 		
-		Long idResidencia = dadosDeConsumoInput.getResidencia().getId();
-		Residencia residencia = residencias.findById(idResidencia)
-		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
-		
-		DadosDeConsumo dadosDeConsumo = mapper.map(dadosDeConsumoInput, DadosDeConsumo.class);
+		Long idResidencia = dadosDeConsumo.getResidencia().getId();
+			Residencia residencia = residencias.findById(idResidencia)
+					.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		dadosDeConsumo.setResidencia(residencia);
 		
-		return mapper.map(consumo.save(dadosDeConsumo), DadosDeConsumoDTO.class);
+		return mapper.map(consumo.save(dadosDeConsumo), DadosDeConsumo.class);
 	}
 	
 	@Transactional
-	public DadosDeConsumoDTO atualizar(Long id, DadosDeConsumoInput dadosDeConsumoInput) {
+	public DadosDeConsumo buscarEntidade(Long id) {
 		
-		DadosDeConsumo dadosDeConsumoAtual = consumo.findById(id)
+		return consumo.findById(id)
 				.orElseThrow(()-> new DadosDeConsumoNaoEncontradoException(id));
-		mapper.map(dadosDeConsumoInput, dadosDeConsumoAtual);
 		
-		DadosDeConsumoInput novoInput = mapper.map(dadosDeConsumoAtual, DadosDeConsumoInput.class);
-		
-		return inserir(novoInput);
 	}
 	
 	public Page<DadosDeConsumoDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){

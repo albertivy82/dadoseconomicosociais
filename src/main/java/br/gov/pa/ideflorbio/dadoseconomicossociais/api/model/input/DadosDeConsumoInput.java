@@ -1,8 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.enums.Alimentacao;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +13,9 @@ import lombok.Setter;
 @Setter
 public class DadosDeConsumoInput {
 
-	@NotBlank
-	private String alimentacaoPrincipal;
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private Alimentacao alimentacaoPrincipal;
 	@NotBlank
 	private String LocalDeCompras;
 	@NotNull

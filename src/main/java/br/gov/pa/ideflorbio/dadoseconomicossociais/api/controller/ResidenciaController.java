@@ -4,6 +4,7 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.ResidenciaService;
 
 
@@ -31,10 +35,20 @@ public class ResidenciaController {
 	@Autowired
 	ResidenciaService residenciaCadastro;
 	
+	@Autowired
+	ModelMapper mapper;
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public ResidenciaDTO adicionar(@RequestBody @Valid ResidenciaInput residenciaInput) {
-		return residenciaCadastro.inserir(residenciaInput);
+		try {
+			
+		Residencia residencia = mapper.map(residenciaInput, Residencia.class);
+		return mapper.map(residenciaCadastro.inserir(residencia), ResidenciaDTO.class);
+		
+		}catch (LocalidadeNaoEncontradaException e){
+			throw new 	EntidadeNaoEncontradaException(e.getMessage());			
+		}
 	}
 	
 	@GetMapping
@@ -49,9 +63,14 @@ public class ResidenciaController {
 	
 	@PutMapping("/{id}")
 	public ResidenciaDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid ResidenciaInput residenciaInput) {
-		
-		return residenciaCadastro.atualizar(id, residenciaInput);
+		@RequestBody @Valid ResidenciaInput residenciaInput) {
+		try {
+		Residencia residenciaAtual = residenciaCadastro.buscarEntidade(id);
+		mapper.map(residenciaInput, residenciaAtual);
+		return mapper.map(residenciaCadastro.inserir(residenciaAtual), ResidenciaDTO.class);
+		}catch (LocalidadeNaoEncontradaException e){
+			throw new 	EntidadeNaoEncontradaException(e.getMessage());			
+		}
 	}
 	
 	@DeleteMapping("/{id}")

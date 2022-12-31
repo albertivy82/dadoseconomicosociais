@@ -14,7 +14,8 @@ public enum Molestias {
 	DST,
 	CANCER,
 	DESNUTRIÇÃO,
-	COVID_19
+	COVID_19, 
+	OUTRA
 
 
 	

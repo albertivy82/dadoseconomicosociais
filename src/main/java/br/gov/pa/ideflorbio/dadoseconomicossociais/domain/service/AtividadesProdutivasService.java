@@ -10,14 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.AtividadeProdutivaDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.AtividadeProdutivaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.AtividadeNaoEncontradaException;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DoencaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.AtividadeProdutiva;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.DadosDeConsumo;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.AtividadesProdutivasRepository;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.ResidenciasRepository;
@@ -39,33 +37,25 @@ public class AtividadesProdutivasService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public AtividadeProdutivaDTO inserir(AtividadeProdutivaInput atividadeProdutivaInput) {
+	public AtividadeProdutiva inserir(AtividadeProdutiva atividadeProdutiva) {
 		
-		Long idResidencia = atividadeProdutivaInput.getResidencia().getId();
+		Long idResidencia = atividadeProdutiva.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		DadosDeConsumo dadosDeConsumo = mapper.map(atividadeProdutivaInput, DadosDeConsumo.class);
-		dadosDeConsumo.setResidencia(residencia);
+		atividadeProdutiva.setResidencia(residencia);
 		
-		AtividadeProdutiva atividadeProdutiva = mapper.map(atividadeProdutivaInput, AtividadeProdutiva.class);
-		
-		return mapper.map(atividadesProdutivas.save(atividadeProdutiva), AtividadeProdutivaDTO.class);	
+		return atividadesProdutivas.save(atividadeProdutiva);
 	}
 	
 	
 	@Transactional
-	public AtividadeProdutivaDTO atualizar(Long id, AtividadeProdutivaInput atividadeProdutivaInput) {
+	public AtividadeProdutiva buscarEntidade(Long id) {
 		
-		AtividadeProdutiva atividadeProdutivaAtual = atividadesProdutivas.findById(id)
-				.orElseThrow(()->new DoencaNaoEncontradaException(id));
+		AtividadeProdutiva atividadeProdutiva = atividadesProdutivas.findById(id)
+				.orElseThrow(()->new AtividadeNaoEncontradaException(id));	
 		
-		mapper.map(atividadeProdutivaInput, atividadeProdutivaAtual);
-		
-		atividadeProdutivaAtual = atividadesProdutivas.save(atividadeProdutivaAtual);
-		
-		return mapper.map(atividadeProdutivaAtual, AtividadeProdutivaDTO.class);
-		
+		return atividadeProdutiva;
 	}
 	
 	

@@ -42,10 +42,10 @@ public class ServicosBasicosService {
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		ServicosBasicos ServicosBasicos = mapper.map(servicosBasicosInput, ServicosBasicos.class);
-		ServicosBasicos.setResidencia(residencia);
+		ServicosBasicos servicosBasicos = mapper.map(servicosBasicosInput, ServicosBasicos.class);
+		servicosBasicos.setResidencia(residencia);
 		
-		return mapper.map(servicos.save(ServicosBasicos), ServicosBasicosDTO.class);
+		return mapper.map(servicos.save(servicosBasicos), ServicosBasicosDTO.class);
 	}
 	
 	@Transactional
@@ -53,9 +53,14 @@ public class ServicosBasicosService {
 		
 		ServicosBasicos servicosBasicosAtual = servicos.findById(id)
 				.orElseThrow(()-> new ServicoNaoEncontradoException(id));
+		
+			
 		mapper.map(servicosBasicosInput, servicosBasicosAtual);
 		
+		
 		ServicosBasicosInput novoInput = mapper.map(servicosBasicosAtual, ServicosBasicosInput.class);
+		
+		//Aqui ele está deixando de ser o objeto aqui em cima
 		
 		return inserir(novoInput);
 	}
