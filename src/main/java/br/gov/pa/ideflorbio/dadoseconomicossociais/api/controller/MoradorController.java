@@ -1,6 +1,8 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.MoradorDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.MoradorInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Morador;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.MoradoresService;
 
 
@@ -24,6 +30,8 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.MoradoresServi
 @RequestMapping("/moradores")
 public class MoradorController {
 	
+	@Autowired
+	ModelMapper mapper;
 	
 	@Autowired
 	MoradoresService moradoresCadastro;
@@ -31,7 +39,28 @@ public class MoradorController {
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public MoradorDTO adicionar(@RequestBody @Valid MoradorInput moradorInput) {
-		return moradoresCadastro.inserir(moradorInput);
+		
+		try {
+			Morador morador = mapper.map(moradorInput, Morador.class);
+			return mapper.map(moradoresCadastro.inserir(morador), MoradorDTO.class);
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
+		
+	}
+	
+	@PutMapping("/{id}")
+	public MoradorDTO atualizar(@PathVariable Long id,
+			@RequestBody @Valid MoradorInput moradorInput) {
+		
+		try {
+			 Morador morador =  moradoresCadastro.buscarEntidade(id);
+			 morador.setResidencia(new Residencia());
+			 mapper.map(moradorInput, morador);
+			return mapper.map(moradoresCadastro.inserir(morador), MoradorDTO.class);
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
 	}
 	
 	@GetMapping
@@ -42,13 +71,6 @@ public class MoradorController {
 	@GetMapping("/{id}")
 	public MoradorDTO Buscar(@PathVariable Long id) {
 		return moradoresCadastro.localizarEntidade(id);
-	}
-	
-	@PutMapping("/{id}")
-	public MoradorDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid MoradorInput moradorInput) {
-		
-		return moradoresCadastro.atualizar(id, moradorInput);
 	}
 	
 	@DeleteMapping("/{id}")

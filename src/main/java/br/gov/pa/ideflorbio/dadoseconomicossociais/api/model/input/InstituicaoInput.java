@@ -12,7 +12,7 @@ import lombok.Setter;
 public class InstituicaoInput {
 	
 	@NotBlank
-	private String Nome;
+	private String nome;
 	
 	@NotBlank
 	private String atividades;

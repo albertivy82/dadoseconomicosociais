@@ -9,16 +9,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ViolenciasSofridasDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ViolenciaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ServicoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ViolenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Violencia;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.ViolenciaRepository;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.ResidenciasRepository;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.ViolenciaRepository;
 
 
 @Service
@@ -39,28 +39,26 @@ public class ViolenciaService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public ViolenciasSofridasDTO inserir(ViolenciaInput violenciaInput) {
+	public Violencia inserir(Violencia violencia) {
 		
-		Long idResidencia = violenciaInput.getResidencia().getId();
+		Long idResidencia = violencia.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		Violencia violencia = mapper.map(violenciaInput, Violencia.class);
 		violencia.setResidencia(residencia);
 		
-		return mapper.map(violencias.save(violencia), ViolenciasSofridasDTO.class);
+		return violencias.save(violencia);
 	}
 	
+	
 	@Transactional
-	public ViolenciasSofridasDTO atualizar(Long id, ViolenciaInput violenciaInput) {
+	public Violencia buscarEntidade(Long id) {
 		
 		Violencia violenciaAtual = violencias.findById(id)
-				.orElseThrow(()-> new ServicoNaoEncontradoException(id));
-		mapper.map(violenciaInput, violenciaAtual);
+				.orElseThrow(()->new ViolenciaNaoEncontradaException(id));
+				
+		return violenciaAtual;
 		
-		ViolenciaInput novoInput = mapper.map(violenciaAtual, ViolenciaInput.class);
-		
-		return inserir(novoInput);
 	}
 	
 	public Page<ViolenciasSofridasDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){

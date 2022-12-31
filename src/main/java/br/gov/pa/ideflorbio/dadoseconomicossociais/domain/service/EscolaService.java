@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EscolaReciboDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EscolaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EscolaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
@@ -34,33 +34,23 @@ public class EscolaService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public EscolaReciboDTO inserir(EscolaInput escolaInput) {
+	public Escola inserir(Escola escola) {
 		
 		
-		Long idLocalidade = escolaInput.getLocalidade().getId();
+		Long idLocalidade = escola.getLocalidade().getId();
 		Localidade localidade = localidades.findById(idLocalidade)
 		.orElseThrow(()->new LocalidadeNaoEncontradaException(idLocalidade));
-		
-		
-		Escola escola = mapper.map(escolaInput, Escola.class);
 		escola.setLocalidade(localidade);
 		
-		
-		return mapper.map(escolas.save(escola), EscolaReciboDTO.class);
+		return escolas.save(escola);
 	}
 	
 	
-	public EscolaReciboDTO atualizar(Long id, EscolaInput escolaInput) {
-		
+	public Escola buscarEntidade(Long id) {
 		
 		Escola escolaAtual = escolas.findById(id)
 				.orElseThrow(()-> new EscolaNaoEncontradaException(id));
-		
-		mapper.map(escolaInput, escolaAtual);
-		
-		EscolaInput novoInput = mapper.map(escolaAtual, EscolaInput.class);
-		
-		return inserir(novoInput);
+		return inserir(escolaAtual);
 	}
 	
 	

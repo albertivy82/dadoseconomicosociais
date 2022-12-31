@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.InstituicoesConhecidasDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.InstituicaoInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.InstituicaoNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
@@ -36,30 +36,28 @@ public class InstituicoesService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public InstituicoesConhecidasDTO inserir(InstituicaoInput instituicaoInput) {
+	public InstituicaoConhecida inserir(InstituicaoConhecida instituicaoConhecida) {
 		
-		Long idResidencia = instituicaoInput.getResidencia().getId();
-		
+		Long idResidencia = instituicaoConhecida.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		InstituicaoConhecida instituicaoConhecida  = mapper.map(instituicaoInput, InstituicaoConhecida.class);
 		instituicaoConhecida.setResidencia(residencia);
 		
-		return mapper.map(instituicoes.save(instituicaoConhecida), InstituicoesConhecidasDTO.class);
+		return instituicoes.save(instituicaoConhecida);
 	}
 	
+	
 	@Transactional
-	public InstituicoesConhecidasDTO atualizar(Long id, InstituicaoInput instituicoesInput) {
+	public InstituicaoConhecida buscarEntidade(Long id) {
 		
-		InstituicaoConhecida instituicaoAtual = instituicoes.findById(id)
-				.orElseThrow(()-> new InstituicaoNaoEncontradaException(id));
-		mapper.map(instituicoesInput, instituicaoAtual);
+		InstituicaoConhecida InstituicaoConhecidaAtual = instituicoes.findById(id)
+				.orElseThrow(()->new InstituicaoNaoEncontradaException(id));
+				
+		return InstituicaoConhecidaAtual;
 		
-		InstituicaoInput novoInput = mapper.map(instituicaoAtual, InstituicaoInput.class);
-		
-		return inserir(novoInput);
 	}
+
 	
 	public Page<InstituicoesConhecidasDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
 		

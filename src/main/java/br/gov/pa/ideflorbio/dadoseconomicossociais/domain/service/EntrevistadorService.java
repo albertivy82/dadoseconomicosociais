@@ -10,8 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadorDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EntrevistadorInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadorNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistador;
@@ -30,25 +30,18 @@ public class EntrevistadorService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public EntrevistadorDTO inserir(EntrevistadorInput entrevistadorInput) {
+	public Entrevistador inserir(Entrevistador entrevistador) {
 		
-		Entrevistador entrevistador = mapper.map(entrevistadorInput, Entrevistador.class);
-		
-		return mapper.map(entrevistadores.save(entrevistador), EntrevistadorDTO.class);	
+		return entrevistadores.save(entrevistador);	
 	}
 	
 	
 	@Transactional
-	public EntrevistadorDTO atualizar(Long id, EntrevistadorInput entrevistadorInput) {
+	public Entrevistador buscarEntidade(Long id) {
 		
 		Entrevistador entrevistadorAtual = entrevistadores
 				.findById(id).orElseThrow(()->new EntrevistadorNaoEncontradoException(id));
-		
-		mapper.map(entrevistadorInput, entrevistadorAtual);
-		
-		entrevistadorAtual = entrevistadores.save(entrevistadorAtual);
-		
-		return mapper.map(entrevistadorAtual, EntrevistadorDTO.class);
+		return entrevistadorAtual;
 		
 	}
 	

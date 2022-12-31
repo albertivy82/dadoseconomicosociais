@@ -22,6 +22,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ResidenciaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ResidenciaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Localidade;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.ResidenciaService;
 
@@ -51,6 +52,19 @@ public class ResidenciaController {
 		}
 	}
 	
+	@PutMapping("/{id}")
+	public ResidenciaDTO atualizar(@PathVariable Long id, 
+		@RequestBody @Valid ResidenciaInput residenciaInput) {
+		try {
+		Residencia residenciaAtual = residenciaCadastro.buscarEntidade(id);
+		residenciaAtual.setLocalidade(new Localidade());
+		mapper.map(residenciaInput, residenciaAtual);
+		return mapper.map(residenciaCadastro.inserir(residenciaAtual), ResidenciaDTO.class);
+		}catch (LocalidadeNaoEncontradaException e){
+			throw new 	EntidadeNaoEncontradaException(e.getMessage());			
+		}
+	}
+
 	@GetMapping
 	public Page<ResidenciaDTO> listar(Pageable paginacao){
 		return residenciaCadastro.listarTodos(paginacao);
@@ -61,17 +75,6 @@ public class ResidenciaController {
 		return residenciaCadastro.localizarEntidade(id);
 	}
 	
-	@PutMapping("/{id}")
-	public ResidenciaDTO atualizar(@PathVariable Long id, 
-		@RequestBody @Valid ResidenciaInput residenciaInput) {
-		try {
-		Residencia residenciaAtual = residenciaCadastro.buscarEntidade(id);
-		mapper.map(residenciaInput, residenciaAtual);
-		return mapper.map(residenciaCadastro.inserir(residenciaAtual), ResidenciaDTO.class);
-		}catch (LocalidadeNaoEncontradaException e){
-			throw new 	EntidadeNaoEncontradaException(e.getMessage());			
-		}
-	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

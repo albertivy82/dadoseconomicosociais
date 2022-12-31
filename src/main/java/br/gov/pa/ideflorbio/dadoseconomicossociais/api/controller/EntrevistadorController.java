@@ -1,6 +1,8 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadorDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EntrevistadorInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistador;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.EntrevistadorService;
 
 @RestController
@@ -26,11 +30,28 @@ public class EntrevistadorController {
 	@Autowired
 	EntrevistadorService entrevistadorCadastro;
 	
+	@Autowired
+	ModelMapper mapper;
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public EntrevistadorDTO adicionar(@RequestBody @Valid EntrevistadorInput entrevistadorInput) {
-		return entrevistadorCadastro.inserir(entrevistadorInput);
+		
+		Entrevistador entrevistador = mapper.map(entrevistadorInput, Entrevistador.class);
+		return mapper.map(entrevistadorCadastro.inserir(entrevistador), EntrevistadorDTO.class);
+		
 	}
+	
+	@PutMapping("/{id}")
+	public EntrevistadorDTO atualizar(@PathVariable Long id, 
+		@RequestBody @Valid EntrevistadorInput entrevistadorInput) {
+
+		Entrevistador entrevistadorAtual = entrevistadorCadastro.buscarEntidade(id);
+		mapper.map(entrevistadorInput, entrevistadorAtual);
+		return mapper.map(entrevistadorCadastro.inserir(entrevistadorAtual), EntrevistadorDTO.class);
+		
+	}
+
 	
 	@GetMapping
 	public Page<EntrevistadorDTO> listar(Pageable paginacao){
@@ -47,12 +68,7 @@ public class EntrevistadorController {
 		return entrevistadorCadastro.buscarPorNome(nome);
 	}
 	
-	@PutMapping("/{id}")
-	public EntrevistadorDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid EntrevistadorInput entrevistadorInput) {
-		return entrevistadorCadastro.atualizar(id, entrevistadorInput);
-	}
-	
+		
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {

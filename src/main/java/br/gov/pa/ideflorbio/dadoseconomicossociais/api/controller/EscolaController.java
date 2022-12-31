@@ -4,6 +4,7 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EscolaReciboDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EscolaInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Escola;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Localidade;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.EscolaService;
 
 
@@ -31,10 +37,33 @@ public class EscolaController {
 	@Autowired
 	EscolaService escolaCadastro;
 	
+	@Autowired
+	ModelMapper mapper;
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public EscolaReciboDTO adicionar(@RequestBody @Valid EscolaInput escolaInput) {
-		return escolaCadastro.inserir(escolaInput);
+		try {
+			
+			Escola escola = mapper.map(escolaInput, Escola.class);
+			return mapper.map(escolaCadastro.inserir(escola), EscolaReciboDTO.class);
+			
+			}catch (LocalidadeNaoEncontradaException e){
+				throw new 	EntidadeNaoEncontradaException(e.getMessage());			
+			}
+	}
+	
+	@PutMapping("/{id}")
+	public EscolaReciboDTO atualizar(@PathVariable Long id, 
+		@RequestBody @Valid EscolaInput escolaInput) {
+		try {
+		Escola escolaAtual = escolaCadastro.buscarEntidade(id);
+		escolaAtual.setLocalidade(new Localidade());
+		mapper.map(escolaInput, escolaAtual);
+		return mapper.map(escolaCadastro.inserir(escolaAtual), EscolaReciboDTO.class);
+		}catch (LocalidadeNaoEncontradaException e){
+			throw new 	EntidadeNaoEncontradaException(e.getMessage());			
+		}
 	}
 	
 	@GetMapping
@@ -45,13 +74,6 @@ public class EscolaController {
 	@GetMapping("/{id}")
 	public EscolaReciboDTO Buscar(@PathVariable Long id) {
 		return escolaCadastro.localizarEntidade(id);
-	}
-	
-	@PutMapping("/{id}")
-	public EscolaReciboDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid EscolaInput escolaInput) {
-		
-		return escolaCadastro.atualizar(id, escolaInput);
 	}
 	
 	@DeleteMapping("/{id}")

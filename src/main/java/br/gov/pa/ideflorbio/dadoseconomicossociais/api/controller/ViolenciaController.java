@@ -1,6 +1,7 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 import javax.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ViolenciasSofridasDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ViolenciaInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Violencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.ViolenciaService;
 
 
@@ -29,10 +34,34 @@ public class ViolenciaController {
 	@Autowired
 	ViolenciaService violenciaCadastro;
 	
+	@Autowired
+	ModelMapper mapper;
+	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
 	public ViolenciasSofridasDTO adicionar(@RequestBody @Valid ViolenciaInput violenciaInput) {
-		return violenciaCadastro.inserir(violenciaInput);
+		
+		try {
+			Violencia violencia = mapper.map(violenciaInput, Violencia.class);
+			return mapper.map(violenciaCadastro.inserir(violencia), ViolenciasSofridasDTO.class);
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
+		
+	}
+	
+	@PutMapping("/{id}")
+	public ViolenciasSofridasDTO atualizar(@PathVariable Long id,
+			@RequestBody @Valid ViolenciaInput violenciaInput) {
+		
+		try {
+			 Violencia violencia =  violenciaCadastro.buscarEntidade(id);
+			 violencia.setResidencia(new Residencia());
+			 mapper.map(violenciaInput, violencia);
+			return mapper.map(violenciaCadastro.inserir(violencia), ViolenciasSofridasDTO.class);
+		}catch(ResidenciaNaoEncontradaException e) {
+			throw new EntidadeNaoEncontradaException(e.getMessage());
+		}
 	}
 	
 	@GetMapping
@@ -45,14 +74,7 @@ public class ViolenciaController {
 		return violenciaCadastro.localizarEntidade(id);
 	}
 	
-	@PutMapping("/{id}")
-	public ViolenciasSofridasDTO atualizar(@PathVariable Long id, 
-			@RequestBody @Valid ViolenciaInput violenciaInput) {
 		
-		return violenciaCadastro.atualizar(id, violenciaInput);
-	}
-	
-	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {

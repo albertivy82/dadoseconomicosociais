@@ -9,8 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.MoradorDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.MoradorInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DoencaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.MoradorNaoEncontradoException;
@@ -42,30 +42,27 @@ public class MoradoresService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public MoradorDTO inserir(MoradorInput moradorInput) {
+	public Morador inserir(Morador morador) {
 		
-		Long idResidencia = moradorInput.getResidencia().getId();
+		Long idResidencia = morador.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		Morador morador = mapper.map(moradorInput, Morador.class);
 		morador.setResidencia(residencia);
 		
-		return mapper.map(moradores.save(morador), MoradorDTO.class);
+		return moradores.save(morador);
 	}
+	
 	
 	@Transactional
-	public MoradorDTO atualizar(Long id, MoradorInput moradorInput) {
+	public Morador buscarEntidade(Long id) {
 		
 		Morador moradorAtual = moradores.findById(id)
-				.orElseThrow(()-> new MoradorNaoEncontradoException(id));
-		mapper.map(moradorInput, moradorAtual);
+				.orElseThrow(()->new MoradorNaoEncontradoException(id));
+				
+		return moradorAtual;
 		
-		MoradorInput novoInput = mapper.map(moradorAtual, MoradorInput.class);
-		
-		return inserir(novoInput);
 	}
-	
 	@Transactional
 	public void vincularDoenca(Long idMorador, Long idDoenca) {
 		Morador morador = moradores.findById(idMorador)
