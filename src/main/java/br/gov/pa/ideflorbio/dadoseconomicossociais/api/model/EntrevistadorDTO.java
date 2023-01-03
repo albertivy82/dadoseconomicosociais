@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class EntrevistadorDTO {
 	
+	private Long id;
 	private String Nome;
 
 }

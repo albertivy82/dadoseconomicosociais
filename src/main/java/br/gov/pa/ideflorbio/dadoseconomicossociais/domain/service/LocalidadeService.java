@@ -74,6 +74,7 @@ public class LocalidadeService {
 	}
 	
 	
+	
 	public List<EntrevistadorDTO> listarEntrevistadores(Long id){
 		
 		Localidade localidade = localidades.findById(id)

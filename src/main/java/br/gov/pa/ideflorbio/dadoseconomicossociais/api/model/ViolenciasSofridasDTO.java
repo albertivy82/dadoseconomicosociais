@@ -7,7 +7,8 @@ import lombok.Setter;
 @Setter
 public class ViolenciasSofridasDTO {
 	
-   	private String tipo;
+	private Long id;
+	private String tipo;
 	private int ocorrencias;
 
 }

@@ -17,23 +17,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadoDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EntrevistadoInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.IndicadoDTO;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.IndicadoInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistado;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.EntrevistadoService;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.IndicadoConsultaPublica;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.IndicadoParaConsultasService;
 
 
 
 @RestController
-@RequestMapping("/entrevistado")
-public class EntrevistadoController {
+@RequestMapping("/indicado-cosultas")
+public class IndicadoConsultaController {
 	
 	
 	@Autowired
-	EntrevistadoService entrevistadosCadastro;
+	IndicadoParaConsultasService indicadoCadastro;
 	
 	@Autowired
 	ModelMapper mapper;
@@ -41,45 +41,45 @@ public class EntrevistadoController {
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
-	public EntrevistadoDTO adicionar(@RequestBody @Valid EntrevistadoInput entrevistadoInput) {
+	public IndicadoDTO adicionar(@RequestBody @Valid IndicadoInput indicadoInput) {
 		
 		try {
-			Entrevistado entrevistado = mapper.map(entrevistadoInput, Entrevistado.class);
-			return mapper.map(entrevistadosCadastro.inserir(entrevistado), EntrevistadoDTO.class);
-		}catch(ResidenciaNaoEncontradaException e) {
+			IndicadoConsultaPublica indicado = mapper.map(indicadoInput, IndicadoConsultaPublica.class);
+			return mapper.map(indicadoCadastro.inserir(indicado), IndicadoDTO.class);
+		}catch(EntrevistadoNaoEncontradoException e) {
 			throw new EntidadeNaoEncontradaException(e.getMessage());
 		}
 		
 	}
 	
 	@PutMapping("/{id}")
-	public EntrevistadoDTO atualizar(@PathVariable Long id,
-			@RequestBody @Valid EntrevistadoInput entrevistadoInput) {
+	public IndicadoDTO atualizar(@PathVariable Long id,
+			@RequestBody @Valid IndicadoInput indicadoInput) {
 		
 		try {
-			 Entrevistado entrevistado =  entrevistadosCadastro.buscarEntidade(id);
-			 entrevistado.setResidencia(new Residencia());
-			 mapper.map(entrevistadoInput, entrevistado);
-			return mapper.map(entrevistadosCadastro.inserir(entrevistado), EntrevistadoDTO.class);
-		}catch(ResidenciaNaoEncontradaException e) {
+			 IndicadoConsultaPublica indicado =  indicadoCadastro.buscarEntidade(id);
+			 indicado.setEntrevistado(new Entrevistado());
+			 mapper.map(indicadoInput, indicado);
+			return mapper.map(indicadoCadastro.inserir(indicado), IndicadoDTO.class);
+		}catch(EntrevistadoNaoEncontradoException e) {
 			throw new EntidadeNaoEncontradaException(e.getMessage());
 		}
 	}
 
 	@GetMapping
-	public Page<EntrevistadoDTO> listar(Pageable paginacao){
-		return entrevistadosCadastro.listarTodos(paginacao);
+	public Page<IndicadoDTO> listar(Pageable paginacao){
+		return indicadoCadastro.listarTodos(paginacao);
 	}
 	
 	@GetMapping("/{id}")
-	public EntrevistadoDTO Buscar(@PathVariable Long id) {
-		return entrevistadosCadastro.localizarEntidade(id);
+	public IndicadoDTO Buscar(@PathVariable Long id) {
+		return indicadoCadastro.localzarEntidade(id);
 	}
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {
-		entrevistadosCadastro.excluir(id);
+		indicadoCadastro.excluir(id);
 	}
 	
 

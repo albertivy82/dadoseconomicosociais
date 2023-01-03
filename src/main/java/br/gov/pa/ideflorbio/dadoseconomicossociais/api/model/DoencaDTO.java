@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class DoencaDTO {
 	
+	private Long id;
 	private String doencaNome;
 
 }

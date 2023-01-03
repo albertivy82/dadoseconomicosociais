@@ -10,11 +10,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.IndicadoDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.IndicadoInput;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.CreditoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.IndicadoNaoEncontradoException;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.CreditoNaoEncontradoException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.NegocioException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistado;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.IndicadoConsultaPublica;
@@ -26,7 +27,8 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.repository.IndicadosCo
 @Service
 public class IndicadoParaConsultasService {
 	
-	private static final String ENTIDADE_EM_USO = "O  id %d não pode ser apagado, pois está "
+	private static final String ENTIDADE_EM_USO = "O indicado para participar"
+			+ "das consultas de id %d não pode ser apagado, pois está "
 			+ "sendo utilizada em um relacionamento";
 	
 	@Autowired
@@ -39,31 +41,30 @@ public class IndicadoParaConsultasService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public IndicadoDTO inserir(IndicadoInput indicadoInput) {
+	public IndicadoConsultaPublica inserir(IndicadoConsultaPublica indicado) {
 		
-		Long idEntrevistado = indicadoInput.getEntrevistado().getId();
+		Long idEntrevistado = indicado.getEntrevistado().getId();
 		Entrevistado entrevistado = entrevistados.findById(idEntrevistado)
-		.orElseThrow(()->new ResidenciaNaoEncontradaException(idEntrevistado));
+				.orElseThrow(()->new ResidenciaNaoEncontradaException(idEntrevistado));
 		
-		IndicadoConsultaPublica indicado = mapper.map(indicadoInput, IndicadoConsultaPublica.class);
+		if(entrevistado.getIndicado()!=null && indicado.getId()==null) {
+			throw new NegocioException("O Entrevistado informado já indicou alguém. Atualize o cadastro ou apague o mesmo"
+					+ " para realizar novo cadastro");
+		}
+		
 		indicado.setEntrevistado(entrevistado);
 		
-		return mapper.map(indicados.save(indicado), IndicadoDTO.class);	
+		return indicados.save(indicado);	
 	}
 	
 	
 	@Transactional
-	public IndicadoDTO atualizar(Long id, IndicadoInput indicadoInput) {
+	public IndicadoConsultaPublica buscarEntidade(Long id) {
 		
-		IndicadoConsultaPublica indicadoAtual = indicados.findById(id)
+		IndicadoConsultaPublica indicado = indicados.findById(id)
 				.orElseThrow(()->new IndicadoNaoEncontradoException(id));
 		
-		mapper.map(indicadoInput, indicadoAtual);
-		
-		IndicadoInput novoInput = mapper.map(indicadoAtual, IndicadoInput.class);
-		
-		return inserir(novoInput);
-		
+		return indicado;
 	}
 	
 	
@@ -73,7 +74,7 @@ public class IndicadoParaConsultasService {
 		return indicados.findAll(paginacao).map(p -> mapper.map(p, IndicadoDTO.class));
 	}
 	
-	public IndicadoDTO localzarentidade(Long id) {
+	public IndicadoDTO localzarEntidade(Long id) {
 		
 		IndicadoConsultaPublica indicado = indicados.findById(id)
 				.orElseThrow(()->new CreditoNaoEncontradoException(id));
@@ -83,7 +84,7 @@ public class IndicadoParaConsultasService {
 	}
 	
 	@Transactional
-	public void apagar(long id) {
+	public void excluir(long id) {
 		try {
 			indicados.deleteById(id);
 			indicados.flush();

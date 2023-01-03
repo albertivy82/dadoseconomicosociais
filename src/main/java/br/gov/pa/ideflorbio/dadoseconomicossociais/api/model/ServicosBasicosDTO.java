@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class ServicosBasicosDTO {
 	
+	private Long id;
+	
 	private String tipoAtendimento;
 	
 	private String servicosDeficitarios;

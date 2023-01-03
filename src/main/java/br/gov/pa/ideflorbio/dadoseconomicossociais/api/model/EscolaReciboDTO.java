@@ -7,6 +7,8 @@ import lombok.Setter;
 @Setter
 public class EscolaReciboDTO {
 	
+	private Long id;
+	
 	private String nome;
 	
 	private String merenda;

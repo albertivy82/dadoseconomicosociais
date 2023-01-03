@@ -9,6 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreditoDTO {
+	
+	private Long id;
 
 	private String nome;
 	

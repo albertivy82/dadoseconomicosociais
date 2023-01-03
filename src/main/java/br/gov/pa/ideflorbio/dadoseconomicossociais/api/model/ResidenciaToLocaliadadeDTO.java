@@ -11,7 +11,8 @@ import lombok.Setter;
 @Setter
 public class ResidenciaToLocaliadadeDTO {
 	
-		
+	    private Long id;
+	
 	    private String rua;
 		
 		private String numero;
