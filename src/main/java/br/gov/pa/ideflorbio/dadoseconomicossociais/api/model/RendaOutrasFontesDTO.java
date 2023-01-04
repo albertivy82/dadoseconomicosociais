@@ -10,11 +10,12 @@ import lombok.Setter;
 @Setter
 public class RendaOutrasFontesDTO {
 	
+	private Long id;
 	
 	private String fonte;
 	
 	private int beneficiarios;
 	
-	private BigDecimal RendaMesTotal;
+	private BigDecimal rendaMesTotal;
 
 }

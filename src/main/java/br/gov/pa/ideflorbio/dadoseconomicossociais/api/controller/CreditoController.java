@@ -76,8 +76,6 @@ public class CreditoController {
 		return creditoCadastro.localzarentidade(id);
 	}
 	
-	
-	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void apagarRegistro (@PathVariable Long id) {

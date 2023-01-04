@@ -14,6 +14,7 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadoDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.AtividadeNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntrevistadoNaoEncontradoException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.NegocioException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistado;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
@@ -43,6 +44,11 @@ public class EntrevistadoService {
 		Long idResidencia = entrevistado.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
+		
+		if(residencia.getEntrevistado()!=null && entrevistado.getId()==null) {
+			throw new NegocioException("Esta residencia já possui um entrevistado cadastrado. Atualize o cadastro ou apague o mesmo"
+					+ " para realizar novo cadastro");
+		}
 		
 		entrevistado.setResidencia(residencia);
 		

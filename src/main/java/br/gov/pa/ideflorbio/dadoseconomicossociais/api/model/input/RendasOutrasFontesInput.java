@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
@@ -16,7 +15,7 @@ import lombok.Setter;
 @Setter
 public class RendasOutrasFontesInput {
 	
-	@NotBlank
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private FontesRenda fonte;
 	
@@ -25,8 +24,9 @@ public class RendasOutrasFontesInput {
 	
 	@NotNull
 	@PositiveOrZero(message = "informe um valor válido")
-	private BigDecimal RendaMesTotal;
+	private BigDecimal rendaMesTotal;
 	
+	@NotNull
 	private ResidenciaIdInput residencia;
 
 }

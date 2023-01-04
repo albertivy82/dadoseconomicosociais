@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DadosDeConsumoDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DadosDeConsumoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.NegocioException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.DadosDeConsumo;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
@@ -44,6 +45,12 @@ public class DadosDeConsumoService {
 		Long idResidencia = dadosDeConsumo.getResidencia().getId();
 			Residencia residencia = residencias.findById(idResidencia)
 					.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
+			
+			if(residencia.getEntrevistado()!=null && dadosDeConsumo.getId()==null) {
+				throw new NegocioException("Esta residencia já possui dados sobre consumo cadastrado. Atualize o cadastro ou apague o mesmo"
+						+ " para realizar novo cadastro");
+			}
+			
 		dadosDeConsumo.setResidencia(residencia);
 		
 		return mapper.map(consumo.save(dadosDeConsumo), DadosDeConsumo.class);

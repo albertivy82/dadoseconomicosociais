@@ -10,9 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.RendaOutrasFontesDTO;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.RendasOutrasFontesInput;
-import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.DoencaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.RendaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
@@ -38,31 +37,24 @@ public class RendasService {
 	ModelMapper mapper;
 	
 	@Transactional
-	public RendaOutrasFontesDTO inserir(RendasOutrasFontesInput rendasInput) {
+	public RendaOutrasFontes inserir(RendaOutrasFontes renda) {
 		
-		Long idResidencia = rendasInput.getResidencia().getId();
+		Long idResidencia = renda.getResidencia().getId();
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
 		
-		RendaOutrasFontes renda = mapper.map(rendasInput, RendaOutrasFontes.class);
 		renda.setResidencia(residencia);
 		
-		return mapper.map(rendas.save(renda), RendaOutrasFontesDTO.class);	
+		return rendas.save(renda);	
 	}
 	
 	
 	@Transactional
-	public RendaOutrasFontesDTO atualizar(Long id, RendasOutrasFontesInput rendasInput) {
+	public RendaOutrasFontes buscarEntidade(Long id) {
 		
-		RendaOutrasFontes rendaAtual = rendas.findById(id)
-				.orElseThrow(()->new DoencaNaoEncontradaException(id));
-		
-		mapper.map(rendasInput, rendaAtual);
-		
-		rendaAtual = rendas.save(rendaAtual);
-		
-		return mapper.map(rendaAtual, RendaOutrasFontesDTO.class);
-		
+		RendaOutrasFontes renda = rendas.findById(id)
+				.orElseThrow(()->new RendaNaoEncontradaException(id));
+		return renda;
 	}
 	
 	

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ServicosBasicosDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeEmUsoException;
+import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.NegocioException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaNaoEncontradaException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ServicoNaoEncontradoException;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
@@ -42,6 +43,12 @@ public class ServicosBasicosService {
 		
 		Residencia residencia = residencias.findById(idResidencia)
 		.orElseThrow(()->new ResidenciaNaoEncontradaException(idResidencia));
+		
+		if(residencia.getEntrevistado()!=null && servicosBasicos.getId()==null) {
+			throw new NegocioException("Esta residencia já possui dados sobre "
+					+ "atendimentos bássicos cadastrados. Atualize o cadastro ou apague o mesmo"
+					+ " para realizar novo cadastro");
+		}
 		
 		servicosBasicos.setResidencia(residencia);
 		
