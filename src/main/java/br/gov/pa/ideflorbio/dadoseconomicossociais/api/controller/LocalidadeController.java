@@ -2,11 +2,12 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 
 
+import java.util.List;
+
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +18,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.LocalidadeInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.LocalidadeService;
+import io.swagger.annotations.Api;
 
-
-
+@Api(tags = "Localidade")
 @RestController
 @RequestMapping("/localidade")
 public class LocalidadeController {
 	
 	@Autowired
 	LocalidadeService localidadeCadastro;
+	
+	@Autowired
+	ModelMapper mapper;
 	
 	@ResponseStatus(HttpStatus.CREATED)
 	@PostMapping()
@@ -37,8 +42,9 @@ public class LocalidadeController {
 	}
 	
 	@GetMapping
-	public Page<LocalidadeDTO> listar(Pageable paginacao){
-		return localidadeCadastro.listarTodos(paginacao);
+	public List<LocalidadeDTO> listar(){
+		return localidadeCadastro
+				.listarTodos().stream().map(t->mapper.map(t, LocalidadeDTO.class)).toList();
 	}
 	
 	@GetMapping("/{id}")

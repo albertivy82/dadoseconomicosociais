@@ -1,11 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +24,11 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaN
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.AtividadeProdutiva;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.AtividadesProdutivasService;
+import io.swagger.annotations.Api;
 
 
 
-
+@Api(tags = "Atividade Produtiva")
 @RestController
 @RequestMapping("/atividade-produtiva")
 public class AividadeProdutivaController {
@@ -70,8 +71,9 @@ public class AividadeProdutivaController {
 	
 	
 	@GetMapping
-	public Page<AtividadeProdutivaDTO> listar(Pageable paginacao){
-		return atividadesProdutivasCadastro.listarTodos(paginacao);
+	public List<AtividadeProdutivaDTO> listar(){
+		return atividadesProdutivasCadastro
+				.listarTodos().stream().map(t->mapper.map(t, AtividadeProdutivaDTO.class)).toList();
 	}
 	
 	@GetMapping("/{id}")

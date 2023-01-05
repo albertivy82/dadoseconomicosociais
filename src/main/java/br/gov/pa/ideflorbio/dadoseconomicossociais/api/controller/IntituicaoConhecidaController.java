@@ -1,11 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +24,11 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaN
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.InstituicaoConhecida;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.InstituicoesService;
+import io.swagger.annotations.Api;
 
 
 
-
+@Api(tags = "Instituições Conhecidas")
 @RestController
 @RequestMapping("/intituicoes-conhecidas")
 public class IntituicaoConhecidaController {
@@ -69,8 +70,10 @@ public class IntituicaoConhecidaController {
 
 	
 	@GetMapping
-	public Page<InstituicoesConhecidasDTO> listar(Pageable paginacao){
-		return instituicoesCadastro.listarTodos(paginacao);
+	public List<InstituicoesConhecidasDTO> listar(){
+		return instituicoesCadastro
+				.listarTodos().stream().map(t->mapper.map(t, InstituicoesConhecidasDTO.class)).toList();
+
 	}
 	
 	@GetMapping("/{id}")

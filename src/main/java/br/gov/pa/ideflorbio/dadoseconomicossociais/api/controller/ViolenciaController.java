@@ -1,10 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.ViolenciasSofridasDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.ViolenciaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.EntidadeNaoEncontradaException;
@@ -22,10 +24,11 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaN
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Violencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.ViolenciaService;
+import io.swagger.annotations.Api;
 
 
 
-
+@Api(tags = "Violência")
 @RestController
 @RequestMapping("/violencia")
 public class ViolenciaController {
@@ -65,8 +68,10 @@ public class ViolenciaController {
 	}
 	
 	@GetMapping
-	public Page<ViolenciasSofridasDTO> listar(Pageable paginacao){
-		return violenciaCadastro.listarTodos(paginacao);
+	public List<ViolenciasSofridasDTO> listar(){
+		return violenciaCadastro
+		.listarTodos().stream().map(t->mapper.map(t, ViolenciasSofridasDTO.class)).toList();
+	
 	}
 	
 	@GetMapping("/{id}")

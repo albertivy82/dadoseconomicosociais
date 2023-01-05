@@ -5,11 +5,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadorDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.LocalidadeDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.LocalidadeInput;
@@ -59,9 +57,9 @@ public class LocalidadeService {
 	}
 	
 	
-	public Page<LocalidadeDTO> listarTodos(@PageableDefault (size = 10) Pageable paginacao){
+	public List<Localidade> listarTodos(){
 		
-	   return localidades.findAll(paginacao).map(p -> mapper.map(p, LocalidadeDTO.class)); 
+	   return localidades.findAll(); 
 		
 	}
 	

@@ -1,11 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +21,9 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.DoencaDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.DoencaInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Doenca;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.DoencaService;
+import io.swagger.annotations.Api;
 
-
+@Api(tags = "Doença")
 @RestController
 @RequestMapping("/doencas")
 public class DoencaController {
@@ -53,8 +54,9 @@ public class DoencaController {
 	}
 	
 	@GetMapping
-	public Page<DoencaDTO> listar(Pageable paginacao){
-		return doencasCadastro.listarTodos(paginacao);
+	public List<DoencaDTO> listar(){
+		return doencasCadastro
+				.listarTodos().stream().map(t->mapper.map(t, DoencaDTO.class)).toList();
 	}
 	
 	@GetMapping("/{id}")

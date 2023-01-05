@@ -2,12 +2,12 @@ package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
 
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +26,11 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.LocalidadeN
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Escola;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Localidade;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.EscolaService;
+import io.swagger.annotations.Api;
 
 
 
-
+@Api(tags = "Escola")
 @RestController
 @RequestMapping("/escola")
 public class EscolaController {
@@ -67,8 +68,10 @@ public class EscolaController {
 	}
 	
 	@GetMapping
-	public Page<EscolaReciboDTO> listar(Pageable paginacao){
-		return escolaCadastro.listarTodos(paginacao);
+	public List<EscolaReciboDTO> listar(){
+		return escolaCadastro
+				.listarTodos().stream().map(t->mapper.map(t, EscolaReciboDTO.class)).toList();
+
 	}
 	
 	@GetMapping("/{id}")

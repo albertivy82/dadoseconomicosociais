@@ -1,11 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +24,11 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.exceptions.ResidenciaN
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.RendaOutrasFontes;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Residencia;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.RendasService;
+import io.swagger.annotations.Api;
 
 
 
-
+@Api(tags = "Fontes de Renda")
 @RestController
 @RequestMapping("/outras-forntes-de-renda")
 public class rendasController {
@@ -51,8 +52,9 @@ public class rendasController {
 	}
 	
 	@GetMapping
-	public Page<RendaOutrasFontesDTO> listar(Pageable paginacao){
-		return rendasCadastro.listarTodos(paginacao);
+	public List<RendaOutrasFontesDTO> listar(){
+		return rendasCadastro
+				.listarTodos().stream().map(t->mapper.map(t, RendaOutrasFontesDTO.class)).toList();
 	}
 	
 	@GetMapping("/{id}")

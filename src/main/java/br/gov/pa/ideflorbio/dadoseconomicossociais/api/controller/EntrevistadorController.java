@@ -1,11 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.api.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,9 @@ import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadorDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.input.EntrevistadorInput;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.model.Entrevistador;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.EntrevistadorService;
+import io.swagger.annotations.Api;
 
+@Api(tags = "Entervistador")
 @RestController
 @RequestMapping("/entrevistadores")
 public class EntrevistadorController {
@@ -54,8 +56,10 @@ public class EntrevistadorController {
 
 	
 	@GetMapping
-	public Page<EntrevistadorDTO> listar(Pageable paginacao){
-		return entrevistadorCadastro.listarTodos(paginacao);
+	public List<EntrevistadorDTO> listar(){
+		return entrevistadorCadastro
+				.listarTodos().stream().map(t->mapper.map(t, EntrevistadorDTO.class)).toList();
+		
 	}
 	
 	@GetMapping("/buscaporid/{id}")

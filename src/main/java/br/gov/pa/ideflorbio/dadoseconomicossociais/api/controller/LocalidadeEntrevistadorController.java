@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.api.model.EntrevistadorDTO;
 import br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service.LocalidadeService;
+import io.swagger.annotations.Api;
 
 
-
+@Api(tags = "LocalidadeXEntrevistador")
 @RestController
 @RequestMapping("/localidade/{id}/entrevistadores")
 public class LocalidadeEntrevistadorController {

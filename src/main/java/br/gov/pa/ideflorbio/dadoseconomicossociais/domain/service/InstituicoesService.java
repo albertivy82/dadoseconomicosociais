@@ -1,12 +1,11 @@
 package br.gov.pa.ideflorbio.dadoseconomicossociais.domain.service;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,9 +58,9 @@ public class InstituicoesService {
 	}
 
 	
-	public Page<InstituicoesConhecidasDTO> listarTodos(@PageableDefault (page = 10) Pageable paginacao){
+	public List<InstituicaoConhecida> listarTodos(){
 		
-	   return instituicoes.findAll(paginacao).map(p -> mapper.map(p, InstituicoesConhecidasDTO.class)); 
+	   return instituicoes.findAll(); 
 		
 	}
 	
